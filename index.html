@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>走啦~打球</title>
+  <style>
+    :root {
+      --primary: #6A5ACD;
+      --primary-dark: #5445B5;
+      --primary-soft: rgba(106, 90, 205, 0.10);
+      --bg: #F5F6FA;
+      --card: #FFFFFF;
+      --text: #1E2230;
+      --text-sub: #6E768A;
+      --border: #E6E9F2;
+      --success: #10B981;
+      --danger: #EF4444;
+      --female: #EC4899;
+      --female-soft: rgba(236, 72, 153, 0.12);
+      --shadow: 0 6px 20px rgba(30, 34, 48, 0.05);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0 0 84px 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      touch-action: manipulation;
+    }
+
+    /* 頂部紫色橫幅 */
+    .purple-banner {
+      background: linear-gradient(135deg, #6A5ACD 0%, #5848B8 100%);
+      color: #FFFFFF;
+      padding: 13px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      box-shadow: 0 4px 14px rgba(106, 90, 205, 0.25);
+    }
+
+    .banner-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      color: #FFFFFF;
+    }
+
+    .shuttle-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 3px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 800;
+      font-size: 12px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+    }
+
+    .banner-btn {
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 6px 9px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .app-wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    .session-bar {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .session-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #CBD5E1;
+    }
+
+    .status-dot.live {
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+    }
+
+    .btn-start {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .btn-end {
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.08);
+      color: var(--danger);
+      font-weight: 800;
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    /* 紫色羽球場上場區 */
+    .court-card {
+      background: linear-gradient(160deg, #6A5ACD 0%, #5646B5 100%);
+      border-radius: 22px;
+      padding: 14px;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+      box-shadow: 0 12px 26px rgba(106, 90, 205, 0.28);
+    }
+
+    .court-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .court-badge {
+      background: rgba(255, 255, 255, 0.18);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .badminton-court {
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .badminton-court::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      border-left: 2px dashed rgba(255, 255, 255, 0.85);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .court-half {
+      position: relative;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 215px;
+    }
+
+    .court-half::before {
+      content: "";
+      position: absolute;
+      inset: 8px 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.35);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      pointer-events: none;
+    }
+
+    .half-header {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      opacity: 0.85;
+      margin-bottom: 6px;
+    }
+
+    .court-players {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .court-player-slot {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 6px 8px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .gender-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    .gender-dot.f {
+      background: var(--female);
+    }
+
+    .court-score {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1;
+      margin: 10px 0 8px;
+      cursor: pointer;
+      z-index: 2;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .court-plus-btn {
+      width: 88%;
+      border: none;
+      background: #FFFFFF;
+      color: var(--primary);
+      font-size: 15px;
+      font-weight: 900;
+      padding: 9px 0;
+      border-radius: 11px;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .court-plus-btn:active {
+      transform: scale(0.96);
+    }
+
+    .court-footer-btns {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 8px;
+    }
+
+    .btn-court-ghost {
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .btn-court-solid {
+      border: none;
+      background: #FFFFFF;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    /* 白色準備區卡片 */
+    .white-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 900;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .pill-tag.f {
+      background: var(--female-soft);
+      color: var(--female);
+    }
+
+    .prep-box {
+      background: var(--bg);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .prep-teams {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--primary);
+      background: #FFFFFF;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 12px;
+      padding: 7px 11px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .bench-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .bench-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .bench-chip.next-up {
+      border-color: rgba(106, 90, 205, 0.4);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    /* 球友管理 */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.8fr 1fr auto;
+      gap: 7px;
+    }
+
+    @media (max-width: 500px) {
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .form-grid .span2 {
+        grid-column: span 2;
+      }
+    }
+
+    input, select {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      background: #fff;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .player-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .player-item:last-child {
+      border-bottom: none;
+    }
+
+    .player-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .sub-text {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mini-icon-btn {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .mini-icon-btn.del {
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 23px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #CBD5E1;
+      transition: 0.2s;
+      border-radius: 999px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 17px;
+      width: 17px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(19px);
+    }
+
+    .avoid-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 800;
+      margin: 6px 6px 0 0;
+    }
+
+    /* 戰績頁與場次分隔區塊 */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-box {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .kpi-num {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .standing-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .standing-item:last-child {
+      border-bottom: none;
+    }
+
+    .delta-pos { color: var(--success); font-weight: 900; }
+    .delta-neg { color: var(--danger); font-weight: 900; }
+
+    /* 每次開打～收工的場次分隔區塊 */
+    .session-group {
+      border-left: 4px solid var(--primary);
+      background: rgba(106, 90, 205, 0.03);
+      border-radius: 0 14px 14px 0;
+      padding: 10px 10px 4px 12px;
+      margin-bottom: 16px;
+    }
+
+    .session-group.ended {
+      border-left-color: #94A3B8;
+      background: #F8FAFC;
+    }
+
+    .session-divider-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed rgba(106, 90, 205, 0.28);
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .session-group.ended .session-divider-header {
+      color: var(--text-sub);
+      border-bottom-color: #CBD5E1;
+    }
+
+    .history-row {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 9px 12px;
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .empty-box {
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 13px;
+      padding: 16px 8px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+      z-index: 25;
+    }
+
+    .nav-btn {
+      flex: 1;
+      max-width: 170px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 4px;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 60;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 400px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+    }
+
+    .toast {
+      position: fixed;
+      top: 66px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      opacity: 0;
+      background: #1E2230;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 15px;
+      border-radius: 999px;
+      z-index: 80;
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    svg.trend-chart {
+      width: 100%;
+      height: 120px;
+      background: var(--bg);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <!-- 頂部紫色橫幅（精修實心斜向羽球 Icon） -->
+  <header class="purple-banner">
+    <div class="banner-inner">
+      <div class="brand">
+        <svg class="shuttle-icon" viewBox="0 0 64 64" fill="none">
+          <!-- 球頭（右下實心半圓弧） -->
+          <path d="M35.5 48.5L48.5 35.5C53.2 40.2 53.2 47.8 48.5 52.5C43.8 57.2 36.2 57.2 31.5 52.5L35.5 48.5Z" fill="#FFFFFF"/>
+          <!-- 4 片獨立羽毛（由上至下階梯斜向展開） -->
+          <path d="M29 9H36L46.5 32.5L42 37L27 14V9H29Z" fill="#FFFFFF"/>
+          <path d="M21 16H27.5L40.5 38.5L36.5 42.5L19 21V16H21Z" fill="#FFFFFF"/>
+          <path d="M14 23H20.5L35 44L31 48L12 28V23H14Z" fill="#FFFFFF"/>
+          <path d="M8 31H14.5L29.5 49.5L26 53L6 36V31H8Z" fill="#FFFFFF"/>
+        </svg>
+        <span>走啦~打球</span>
+      </div>
+
+      <div class="banner-actions">
+        <div class="mode-pill">
+          <button type="button" id="btnMode21" class="mode-btn active">21分</button>
+          <button type="button" id="btnMode11" class="mode-btn">11分</button>
+        </div>
+        <button type="button" id="btnOpenAccount" class="banner-btn">帳號</button>
+        <button type="button" id="btnOpenQuickAdd" class="banner-btn">+ 球友</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-wrap">
+    <!-- 分頁 1：排場計分 -->
+    <section id="tab-match" class="tab-view">
+      <div class="session-bar">
+        <div class="session-status">
+          <span id="sessionDot" class="status-dot"></span>
+          <span id="sessionLabel">尚未開打</span>
+        </div>
+        <div id="sessionActionArea"></div>
+      </div>
+
+      <div id="courtSection"></div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">下一場準備區</h2>
+          <button type="button" id="btnShuffleNext" class="btn-outline">換一組</button>
+        </div>
+        <div id="nextPrepContainer"></div>
+      </div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">場邊輪替</h2>
+          <span id="activeSummaryTag" class="pill-tag">0 人出席</span>
+        </div>
+        <div id="benchListContainer" class="bench-list"></div>
+      </div>
+    </section>
+
+    <!-- 分頁 2：球友管理 -->
+    <section id="tab-players" class="tab-view" style="display:none;">
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">新增球友</h2>
+        </div>
+        <div class="form-grid">
+          <input id="newPlayerName" class="span2" type="text" placeholder="暱稱" />
+          <select id="newPlayerGender">
+            <option value="M">男</option>
+            <option value="F">女</option>
+          </select>
+          <select id="newPlayerSkill">
+            <option value="1200">初階</option>
+            <option value="1350">中初</option>
+            <option value="1500" selected>中階</option>
+            <option value="1650">中進階</option>
+            <option value="1800">進階</option>
+          </select>
+          <button type="button" id="btnAddPlayerForm" class="btn-primary span2">新增</button>
+        </div>
+      </div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">球友名單</h2>
+          <span id="activeCountBadge" class="pill-tag">出席 0 人</span>
+        </div>
+        <div id="playerListContainer"></div>
+      </div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">不要同組設定</h2>
+          <span class="pill-tag f">2女自動拆混雙</span>
+        </div>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr auto;">
+          <select id="avoidPlayerA"></select>
+          <select id="avoidPlayerB"></select>
+          <button type="button" id="btnAddAvoidPair" class="btn-outline">加入</button>
+        </div>
+        <div id="avoidListContainer"></div>
+      </div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">目前帳號與備份</h2>
+          <span id="currentAccountTag" class="pill-tag">預設球團</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" id="btnSwitchAccountCard" class="mini-icon-btn">切換 / 建立帳號</button>
+          <button type="button" id="btnExportJson" class="mini-icon-btn">匯出備份</button>
+          <button type="button" id="btnImportJsonTrigger" class="mini-icon-btn">匯入備份</button>
+          <input id="importFileInput" type="file" accept=".json" style="display:none;" />
+          <button type="button" id="btnResetDemo" class="mini-icon-btn del">重設範例</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分頁 3：戰績結算 -->
+    <section id="tab-stats" class="tab-view" style="display:none;">
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">戰績排行</h2>
+          <button type="button" id="btnCopySummary" class="btn-outline">複製摘要</button>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-box">
+            <div id="kpiTotalGames" class="kpi-num">0</div>
+            <div class="sub-text">總場數</div>
+          </div>
+          <div class="kpi-box">
+            <div id="kpi21Games" class="kpi-num">0</div>
+            <div class="sub-text">21分制</div>
+          </div>
+          <div class="kpi-box">
+            <div id="kpi11Games" class="kpi-num">0</div>
+            <div class="sub-text">11分制</div>
+          </div>
+        </div>
+        <div id="standingsContainer"></div>
+      </div>
+
+      <div id="trendCard" class="white-card" style="display:none;">
+        <div class="card-header">
+          <h2 id="trendTitle" class="card-title">戰力曲線</h2>
+          <button type="button" id="btnCloseTrend" class="mini-icon-btn">關閉</button>
+        </div>
+        <div id="trendSubtitle" class="sub-text" style="margin-bottom:8px;"></div>
+        <svg id="trendSvg" class="trend-chart" viewBox="0 0 320 120"></svg>
+      </div>
+
+      <div class="white-card">
+        <div class="card-header">
+          <h2 class="card-title">對戰紀錄（依開打場次分隔）</h2>
+        </div>
+        <div id="historyContainer"></div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav">
+    <button type="button" id="nav-match" class="nav-btn active">排場計分</button>
+    <button type="button" id="nav-players" class="nav-btn">球友設定</button>
+    <button type="button" id="nav-stats" class="nav-btn">戰績結算</button>
+  </nav>
+
+  <!-- 彈窗：帳號登入／球團切換 -->
+  <div id="accountModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="card-header">
+        <h3 class="card-title">帳號與球團紀錄</h3>
+        <button type="button" id="btnCloseAccount" class="mini-icon-btn">✕</button>
+      </div>
+      <div class="sub-text" style="margin-bottom:10px;">
+        輸入帳號名稱（例如「週三羽球團」或個人 Email），不同帳號的名單與對戰紀錄會分開保存。
+      </div>
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <input id="accountInput" type="text" placeholder="輸入新帳號或球團名稱" />
+        <button type="button" id="btnLoginAccount" class="btn-primary" style="white-space:nowrap;">登入 / 建立</button>
+      </div>
+      <div class="sub-text" style="font-weight:800; margin-bottom:6px;">已儲存的帳號：</div>
+      <div id="savedAccountsList" style="display:flex; flex-direction:column; gap:6px;"></div>
+    </div>
+  </div>
+
+  <!-- 彈窗：臨時加球友 -->
+  <div id="quickAddModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="card-header">
+        <h3 class="card-title">臨時加入球友</h3>
+        <button type="button" id="btnCloseQuickAdd" class="mini-icon-btn">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <input id="modalName" type="text" placeholder="暱稱" />
+        <select id="modalGender">
+          <option value="M">男</option>
+          <option value="F">女</option>
+        </select>
+        <select id="modalSkill">
+          <option value="1200">初階</option>
+          <option value="1350">中初</option>
+          <option value="1500" selected>中階</option>
+          <option value="1650">中進階</option>
+          <option value="1800">進階</option>
+        </select>
+        <button type="button" id="btnAddPlayerModal" class="btn-primary">加入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 彈窗：編輯球友 -->
+  <div id="editPlayerModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="card-header">
+        <h3 class="card-title">編輯球友資料</h3>
+        <button type="button" id="btnCloseEditModal" class="mini-icon-btn">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <input id="editPlayerId" type="hidden" />
+        <input id="editPlayerName" type="text" placeholder="暱稱" />
+        <select id="editPlayerGender">
+          <option value="M">男</option>
+          <option value="F">女</option>
+        </select>
+        <select id="editPlayerSkill">
+          <option value="1200">初階</option>
+          <option value="1350">中初</option>
+          <option value="1500">中階</option>
+          <option value="1650">中進階</option>
+          <option value="1800">進階</option>
+        </select>
+        <button type="button" id="btnSaveEditPlayer" class="btn-primary">儲存修改</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 彈窗：直接輸入比分 -->
+  <div id="scoreModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="card-header">
+        <h3 class="card-title">輸入本局比分</h3>
+        <button type="button" id="btnCloseScoreModal" class="mini-icon-btn">✕</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+        <div>
+          <div class="sub-text" id="modalTeamALabel" style="margin-bottom:4px;">左半場</div>
+          <input id="modalScoreA" type="number" min="0" max="99" style="font-size:20px; font-weight:900; text-align:center;" />
+        </div>
+        <div>
+          <div class="sub-text" id="modalTeamBLabel" style="margin-bottom:4px;">右半場</div>
+          <input id="modalScoreB" type="number" min="0" max="99" style="font-size:20px; font-weight:900; text-align:center;" />
+        </div>
+      </div>
+      <button type="button" id="btnApplyManualScore" class="btn-primary" style="width:100%;">套用比分</button>
+    </div>
+  </div>
+
+  <!-- 彈窗：今日結束結算 -->
+  <div id="summaryModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="card-header">
+        <h3 class="card-title">本場次結算完成</h3>
+        <button type="button" id="btnCloseSummaryModal" class="mini-icon-btn">✕</button>
+      </div>
+      <div id="summaryModalBody" style="margin-bottom:14px;"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <button type="button" id="btnModalCopySummary" class="btn-outline">複製戰績</button>
+        <button type="button" id="btnConfirmEndReset" class="btn-primary">確認收工</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const ACCOUNT_INDEX_KEY = 'lets_play_accounts_v1';
+      const CURRENT_ACCOUNT_KEY = 'lets_play_current_account_v1';
+
+      const DEFAULT_STATE = {
+        sessionActive: false,
+        currentSessionId: null,
+        pointMode: 21,
+        players: [
+          { id: 'p1', name: '阿P', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p2', name: 'Amy', gender: 'F', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p3', name: 'Rex', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p4', name: 'Anna', gender: 'F', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p5', name: 'Eric', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p6', name: 'Max', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
+          { id: 'p7', name: 'Winston', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] }
+        ],
+        avoidPairs: [['p2', 'p4']],
+        currentMatch: null,
+        nextMatch: null,
+        scoreHistoryStack: [],
+        sessions: [], // 每次「開始打球 -> 結束收工」的場次區塊
+        matches: []
+      };
+
+      function cloneDefault() {
+        return JSON.parse(JSON.stringify(DEFAULT_STATE));
+      }
+
+      function getAccountList() {
+        try {
+          const list = JSON.parse(localStorage.getItem(ACCOUNT_INDEX_KEY) || '[]');
+          return list.length ? list : ['預設球團'];
+        } catch (e) {
+          return ['預設球團'];
+        }
+      }
+
+      function saveAccountList(list) {
+        try {
+          localStorage.setItem(ACCOUNT_INDEX_KEY, JSON.stringify(list));
+        } catch (e) {}
+      }
+
+      let currentAccount = localStorage.getItem(CURRENT_ACCOUNT_KEY) || '預設球團';
+      if (!getAccountList().includes(currentAccount)) {
+        saveAccountList([...getAccountList(), currentAccount]);
+      }
+
+      function storageKeyForAccount(acc) {
+        return 'lets_play_data_' + encodeURIComponent(acc);
+      }
+
+      function loadStateForAccount(acc) {
+        try {
+          const raw = localStorage.getItem(storageKeyForAccount(acc));
+          if (!raw) return cloneDefault();
+          const parsed = JSON.parse(raw);
+          return Object.assign(cloneDefault(), parsed);
+        } catch (e) {
+          return cloneDefault();
+        }
+      }
+
+      let state = loadStateForAccount(currentAccount);
+
+      function saveState() {
+        try {
+          localStorage.setItem(storageKeyForAccount(currentAccount), JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      function formatDateTime(ts) {
+        const d = ts ? new Date(ts) : new Date();
+        const pad = n => String(n).padStart(2, '0');
+        return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
+      function formatTimeOnly(ts) {
+        const d = ts ? new Date(ts) : new Date();
+        const pad = n => String(n).padStart(2, '0');
+        return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
+      function showToast(msg) {
+        const el = document.getElementById('toast');
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => el.classList.remove('show'), 2100);
+      }
+
+      function getPlayer(id) {
+        return state.players.find(p => p.id === id);
+      }
+
+      function getActivePlayers() {
+        return state.players.filter(p => p.active);
+      }
+
+      function isAvoidPair(aId, bId) {
+        return state.avoidPairs.some(
+          pair => (pair[0] === aId && pair[1] === bId) || (pair[0] === bId && pair[1] === aId)
+        );
+      }
+
+      function skillLabel(skill) {
+        if (skill <= 1250) return '初階';
+        if (skill <= 1400) return '中初';
+        if (skill <= 1550) return '中階';
+        if (skill <= 1700) return '中進階';
+        return '進階';
+      }
+
+      function isRoundOpener(active, virtualGamesMap) {
+        if (active.length < 4) return false;
+        const counts = active.map(p => virtualGamesMap[p.id] ?? p.dayGames);
+        return Math.min(...counts) === Math.max(...counts);
+      }
+
+      function shuffleArray(arr) {
+        const copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      function recentRepeatPenalty(playerIds, recentMatchList) {
+        let penalty = 0;
+        const set = new Set(playerIds);
+        recentMatchList.slice(0, 3).forEach((m, idx) => {
+          const weight = (3 - idx) * 18;
+          const aOverlap = m.teamA.filter(id => set.has(id)).length;
+          const bOverlap = m.teamB.filter(id => set.has(id)).length;
+          if (aOverlap >= 2) penalty += weight * 2;
+          if (bOverlap >= 2) penalty += weight * 2;
+          if (aOverlap >= 1 && bOverlap >= 1) penalty += weight;
+        });
+        return penalty;
+      }
+
+      function buildMatchFromVirtualGames(virtualGamesMap, extraRecentMatches = []) {
+        const active = getActivePlayers();
+        if (active.length < 4) return null;
+
+        const roundStart = isRoundOpener(active, virtualGamesMap);
+        const minGames = Math.min(...active.map(p => virtualGamesMap[p.id] ?? p.dayGames));
+
+        const leastPlayed = shuffleArray(
+          active.filter(p => (virtualGamesMap[p.id] ?? p.dayGames) === minGames)
+        );
+        const others = shuffleArray(
+          active.filter(p => (virtualGamesMap[p.id] ?? p.dayGames) > minGames)
+        );
+
+        let pool = [...leastPlayed, ...others];
+
+        if (roundStart) {
+          const femalesFirst = shuffleArray(active.filter(p => p.gender === 'F'));
+          const rest = shuffleArray(active.filter(p => !femalesFirst.some(f => f.id === p.id)));
+          pool = [...femalesFirst, ...rest];
+        }
+
+        const four = pool.slice(0, 4);
+        const splits = [
+          [[four[0], four[1]], [four[2], four[3]]],
+          [[four[0], four[2]], [four[1], four[3]]],
+          [[four[0], four[3]], [four[1], four[2]]]
+        ];
+
+        const femaleCount = four.filter(p => p.gender === 'F').length;
+        const recent = [...extraRecentMatches, ...state.matches];
+
+        const scoredSplits = splits.map(split => {
+          const [tA, tB] = split;
+          let penalty = 0;
+
+          if (isAvoidPair(tA[0].id, tA[1].id)) penalty += 10000;
+          if (isAvoidPair(tB[0].id, tB[1].id)) penalty += 10000;
+
+          if (femaleCount === 2) {
+            const fA = tA.filter(p => p.gender === 'F').length;
+            const fB = tB.filter(p => p.gender === 'F').length;
+            if (!(fA === 1 && fB === 1)) {
+              penalty += 5000;
+            }
+          }
+
+          penalty += recentRepeatPenalty(four.map(p => p.id), recent);
+          const score = penalty + Math.random() * 35;
+          return { split, score };
+        });
+
+        scoredSplits.sort((a, b) => a.score - b.score);
+        const chosen = scoredSplits[0].split;
+
+        const swapSides = Math.random() < 0.5;
+        const finalA = swapSides ? chosen[1] : chosen[0];
+        const finalB = swapSides ? chosen[0] : chosen[1];
+
+        return {
+          teamA: finalA.map(p => p.id),
+          teamB: finalB.map(p => p.id),
+          scoreA: 0,
+          scoreB: 0,
+          mode: state.pointMode,
+          isRoundStart: roundStart
+        };
+      }
+
+      function syncMatchQueue() {
+        const active = getActivePlayers();
+        if (active.length < 4) {
+          state.currentMatch = null;
+          state.nextMatch = null;
+          return;
+        }
+
+        const baseMap = {};
+        active.forEach(p => { baseMap[p.id] = p.dayGames; });
+
+        if (!state.currentMatch) {
+          state.currentMatch = buildMatchFromVirtualGames(baseMap, []);
+        }
+
+        const nextMap = Object.assign({}, baseMap);
+        const extraRecent = [];
+        if (state.currentMatch) {
+          [...state.currentMatch.teamA, ...state.currentMatch.teamB].forEach(id => {
+            if (nextMap[id] !== undefined) nextMap[id] += 1;
+          });
+          extraRecent.push({
+            teamA: state.currentMatch.teamA,
+            teamB: state.currentMatch.teamB
+          });
+        }
+        state.nextMatch = buildMatchFromVirtualGames(nextMap, extraRecent);
+      }
+
+      function startSession() {
+        const active = getActivePlayers();
+        if (active.length < 4) {
+          showToast('請先到「球友設定」勾選至少 4 人');
+          return;
+        }
+        const now = Date.now();
+        const sessionId = 'sess_' + now;
+        state.sessionActive = true;
+        state.currentSessionId = sessionId;
+        state.sessions.unshift({
+          id: sessionId,
+          startTime: now,
+          endTime: null
+        });
+        state.currentMatch = null;
+        state.nextMatch = null;
+        syncMatchQueue();
+        saveState();
+        renderAll();
+        showToast('開打啦！首場已優先安排女生上場');
+      }
+
+      function openEndSummaryModal() {
+        const active = getActivePlayers();
+        const sessionMatches = state.matches.filter(m => m.sessionId === state.currentSessionId);
+        const playedPlayers = [...state.players]
+          .filter(p => p.dayGames > 0)
+          .sort((a, b) => b.dayDelta - a.dayDelta);
+
+        let html = `<div class="kpi-row">
+          <div class="kpi-box"><div class="kpi-num">${sessionMatches.length}</div><div class="sub-text">本場次局數</div></div>
+          <div class="kpi-box"><div class="kpi-num">${active.length}</div><div class="sub-text">出席人數</div></div>
+          <div class="kpi-box"><div class="kpi-num">${playedPlayers[0] ? playedPlayers[0].name : '-'}</div><div class="sub-text">累計MVP</div></div>
+        </div>`;
+
+        if (playedPlayers.length === 0) {
+          html += `<div class="empty-box">本場次尚未完成任何計分紀錄</div>`;
+        } else {
+          html += playedPlayers.map(p => {
+            const sign = p.dayDelta > 0 ? '+' : '';
+            return `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span><strong>${p.name}</strong>（打 ${p.dayGames} 場 · ${p.dayW}勝${p.dayL}負）</span>
+              <span class="${p.dayDelta >= 0 ? 'delta-pos' : 'delta-neg'}">${sign}${p.dayDelta}</span>
+            </div>`;
+          }).join('');
+        }
+
+        document.getElementById('summaryModalBody').innerHTML = html;
+        document.getElementById('summaryModal').classList.add('open');
+      }
+
+      function confirmEndSession() {
+        const currSess = state.sessions.find(s => s.id === state.currentSessionId);
+        if (currSess && !currSess.endTime) {
+          currSess.endTime = Date.now();
+        }
+        state.sessionActive = false;
+        state.currentSessionId = null;
+        state.currentMatch = null;
+        state.nextMatch = null;
+        state.scoreHistoryStack = [];
+        document.getElementById('summaryModal').classList.remove('open');
+        saveState();
+        renderAll();
+        showToast('已結束收工並標記場次時間');
+      }
+
+      function setPointMode(mode) {
+        state.pointMode = mode;
+        if (state.currentMatch) state.currentMatch.mode = mode;
+        if (state.nextMatch) state.nextMatch.mode = mode;
+        saveState();
+        renderAll();
+        showToast(`切換為 ${mode} 分制`);
+      }
+
+      function addScore(side) {
+        if (!state.sessionActive) {
+          showToast('請先按「開始打球」');
+          return;
+        }
+        if (!state.currentMatch) return;
+        state.scoreHistoryStack.push({
+          scoreA: state.currentMatch.scoreA,
+          scoreB: state.currentMatch.scoreB
+        });
+        if (side === 'A') state.currentMatch.scoreA += 1;
+        if (side === 'B') state.currentMatch.scoreB += 1;
+        saveState();
+        renderMatchTab();
+      }
+
+      function undoScore() {
+        if (!state.currentMatch || state.scoreHistoryStack.length === 0) {
+          showToast('沒有上一步可撤銷');
+          return;
+        }
+        const prev = state.scoreHistoryStack.pop();
+        state.currentMatch.scoreA = prev.scoreA;
+        state.currentMatch.scoreB = prev.scoreB;
+        saveState();
+        renderMatchTab();
+      }
+
+      function openScoreModal() {
+        if (!state.sessionActive || !state.currentMatch) return;
+        const aNames = state.currentMatch.teamA.map(id => getPlayer(id)?.name || '').join('＋');
+        const bNames = state.currentMatch.teamB.map(id => getPlayer(id)?.name || '').join('＋');
+        document.getElementById('modalTeamALabel').textContent = aNames;
+        document.getElementById('modalTeamBLabel').textContent = bNames;
+        document.getElementById('modalScoreA').value = state.currentMatch.scoreA;
+        document.getElementById('modalScoreB').value = state.currentMatch.scoreB;
+        document.getElementById('scoreModal').classList.add('open');
+      }
+
+      function applyManualScore() {
+        if (!state.currentMatch) return;
+        const sA = Math.max(0, parseInt(document.getElementById('modalScoreA').value, 10) || 0);
+        const sB = Math.max(0, parseInt(document.getElementById('modalScoreB').value, 10) || 0);
+        state.scoreHistoryStack.push({
+          scoreA: state.currentMatch.scoreA,
+          scoreB: state.currentMatch.scoreB
+        });
+        state.currentMatch.scoreA = sA;
+        state.currentMatch.scoreB = sB;
+        document.getElementById('scoreModal').classList.remove('open');
+        saveState();
+        renderMatchTab();
+      }
+
+      function finishMatch() {
+        if (!state.sessionActive) {
+          showToast('請先按「開始打球」');
+          return;
+        }
+        const m = state.currentMatch;
+        if (!m) return;
+        if (m.scoreA === m.scoreB) {
+          showToast('平手無法結算，請確認比分');
+          return;
+        }
+
+        const modeWeight = m.mode === 21 ? 1.0 : 0.5;
+        const baseK = 24 * modeWeight;
+        const diffPoints = Math.abs(m.scoreA - m.scoreB);
+        const marginBonus = Math.min(8, diffPoints * 0.6 * modeWeight);
+
+        const teamAPlayers = m.teamA.map(getPlayer).filter(Boolean);
+        const teamBPlayers = m.teamB.map(getPlayer).filter(Boolean);
+
+        const avgA = teamAPlayers.reduce((acc, p) => acc + p.skill, 0) / 2;
+        const avgB = teamBPlayers.reduce((acc, p) => acc + p.skill, 0) / 2;
+        const expA = 1 / (1 + Math.pow(10, (avgB - avgA) / 400));
+        const expB = 1 - expA;
+
+        const aWon = m.scoreA > m.scoreB;
+        const deltaA = Math.round(baseK * ((aWon ? 1 : 0) - expA) + (aWon ? marginBonus : -marginBonus * 0.6));
+        const deltaB = Math.round(baseK * ((!aWon ? 1 : 0) - expB) + (!aWon ? marginBonus : -marginBonus * 0.6));
+
+        teamAPlayers.forEach(p => {
+          p.dayGames += 1;
+          p.dayW += aWon ? 1 : 0;
+          p.dayL += aWon ? 0 : 1;
+          p.dayDiff += (m.scoreA - m.scoreB);
+          p.skill = Math.max(900, p.skill + deltaA);
+          p.dayDelta += deltaA;
+          p.history.push(p.skill);
+        });
+
+        teamBPlayers.forEach(p => {
+          p.dayGames += 1;
+          p.dayW += !aWon ? 1 : 0;
+          p.dayL += !aWon ? 0 : 1;
+          p.dayDiff += (m.scoreB - m.scoreA);
+          p.skill = Math.max(900, p.skill + deltaB);
+          p.dayDelta += deltaB;
+          p.history.push(p.skill);
+        });
+
+        const now = Date.now();
+        state.matches.unshift({
+          id: now,
+          sessionId: state.currentSessionId,
+          playedAt: now,
+          mode: m.mode,
+          teamA: teamAPlayers.map(p => p.name),
+          teamB: teamBPlayers.map(p => p.name),
+          scoreA: m.scoreA,
+          scoreB: m.scoreB,
+          deltaA,
+          deltaB
+        });
+
+        state.scoreHistoryStack = [];
+        state.currentMatch = state.nextMatch
+          ? Object.assign({}, state.nextMatch, { scoreA: 0, scoreB: 0, mode: state.pointMode })
+          : null;
+        syncMatchQueue();
+
+        saveState();
+        renderAll();
+        showToast(state.currentMatch?.isRoundStart ? '新的一輪開始！首場優先安排女生' : '本局已存檔，下一場上場！');
+      }
+
+      function shuffleNextMatch() {
+        const active = getActivePlayers();
+        const nextMap = {};
+        active.forEach(p => { nextMap[p.id] = p.dayGames; });
+        const extraRecent = [];
+        if (state.currentMatch) {
+          [...state.currentMatch.teamA, ...state.currentMatch.teamB].forEach(id => {
+            if (nextMap[id] !== undefined) nextMap[id] += 1;
+          });
+          extraRecent.push({
+            teamA: state.currentMatch.teamA,
+            teamB: state.currentMatch.teamB
+          });
+        }
+        state.nextMatch = buildMatchFromVirtualGames(nextMap, extraRecent);
+        saveState();
+        renderMatchTab();
+        showToast('已隨機重排下一場');
+      }
+
+      function switchTab(tabName) {
+        ['match', 'players', 'stats'].forEach(t => {
+          document.getElementById('tab-' + t).style.display = (t === tabName) ? 'block' : 'none';
+          document.getElementById('nav-' + t).classList.toggle('active', t === tabName);
+        });
+        if (tabName === 'stats') renderStatsTab();
+      }
+
+      function renderMatchTab() {
+        document.getElementById('btnMode21').classList.toggle('active', state.pointMode === 21);
+        document.getElementById('btnMode11').classList.toggle('active', state.pointMode === 11);
+        document.getElementById('btnOpenAccount').textContent = currentAccount.length > 5 ? currentAccount.slice(0, 5) + '…' : currentAccount;
+
+        const dot = document.getElementById('sessionDot');
+        const label = document.getElementById('sessionLabel');
+        const actionArea = document.getElementById('sessionActionArea');
+
+        if (state.sessionActive) {
+          dot.classList.add('live');
+          const currCount = state.matches.filter(m => m.sessionId === state.currentSessionId).length;
+          label.textContent = `進行中 · 本場已打 ${currCount} 局`;
+          actionArea.innerHTML = `<button type="button" id="btnEndSession" class="btn-end">結束收工</button>`;
+          document.getElementById('btnEndSession').addEventListener('click', openEndSummaryModal);
+        } else {
+          dot.classList.remove('live');
+          label.textContent = '準備開局';
+          actionArea.innerHTML = `<button type="button" id="btnStartSession" class="btn-start">開始打球</button>`;
+          document.getElementById('btnStartSession').addEventListener('click', startSession);
+        }
+
+        const courtSection = document.getElementById('courtSection');
+        const nextPrepEl = document.getElementById('nextPrepContainer');
+
+        if (!state.sessionActive) {
+          courtSection.innerHTML = `
+            <div class="court-card" style="text-align:center; padding:26px 16px;">
+              <div style="font-size:17px; font-weight:900; margin-bottom:6px;">球場已就緒</div>
+              <div style="font-size:13px; opacity:0.88; margin-bottom:14px;">確認出席名單後，點擊「開始打球」自動分配站位</div>
+              <button type="button" id="btnCardStart" class="btn-court-solid" style="padding:10px 24px;">開始打球</button>
+            </div>
+          `;
+          document.getElementById('btnCardStart').addEventListener('click', startSession);
+          nextPrepEl.innerHTML = `<div class="empty-box">開打後自動顯示下一場名單</div>`;
+        } else {
+          syncMatchQueue();
+          if (!state.currentMatch) {
+            courtSection.innerHTML = `<div class="court-card"><div style="text-align:center; padding:16px;">出席人數不足 4 人，請先新增或勾選球友</div></div>`;
+            nextPrepEl.innerHTML = `<div class="empty-box">等待人數補齊</div>`;
+          } else {
+            const m = state.currentMatch;
+            const tA = m.teamA.map(getPlayer).filter(Boolean);
+            const tB = m.teamB.map(getPlayer).filter(Boolean);
+
+            const renderSlot = p => `
+              <div class="court-player-slot">
+                <span class="gender-dot ${p.gender === 'F' ? 'f' : ''}"></span>
+                <span>${p.name}</span>
+              </div>
+            `;
+
+            const currCount = state.matches.filter(item => item.sessionId === state.currentSessionId).length;
+            courtSection.innerHTML = `
+              <div class="court-card">
+                <div class="court-top-meta">
+                  <span>第 ${currCount + 1} 局 · 上場中</span>
+                  <div style="display:flex; gap:6px;">
+                    ${m.isRoundStart ? `<span class="court-badge">本輪首場·女生先打</span>` : ''}
+                    <span class="court-badge">${state.pointMode} 分制</span>
+                  </div>
+                </div>
+
+                <div class="badminton-court">
+                  <div class="court-half">
+                    <div class="half-header">左半場</div>
+                    <div class="court-players">${tA.map(renderSlot).join('')}</div>
+                    <div id="scoreDisplayA" class="court-score" title="點擊修改比分">${m.scoreA}</div>
+                    <button type="button" id="btnPlusA" class="court-plus-btn">+ 1</button>
+                  </div>
+
+                  <div class="court-half">
+                    <div class="half-header">右半場</div>
+                    <div class="court-players">${tB.map(renderSlot).join('')}</div>
+                    <div id="scoreDisplayB" class="court-score" title="點擊修改比分">${m.scoreB}</div>
+                    <button type="button" id="btnPlusB" class="court-plus-btn">+ 1</button>
+                  </div>
+                </div>
+
+                <div class="court-footer-btns">
+                  <button type="button" id="btnUndoScore" class="btn-court-ghost">撤銷</button>
+                  <button type="button" id="btnFinishMatch" class="btn-court-solid">結束本局並存檔</button>
+                </div>
+              </div>
+            `;
+
+            document.getElementById('btnPlusA').addEventListener('click', () => addScore('A'));
+            document.getElementById('btnPlusB').addEventListener('click', () => addScore('B'));
+            document.getElementById('scoreDisplayA').addEventListener('click', openScoreModal);
+            document.getElementById('scoreDisplayB').addEventListener('click', openScoreModal);
+            document.getElementById('btnUndoScore').addEventListener('click', undoScore);
+            document.getElementById('btnFinishMatch').addEventListener('click', finishMatch);
+
+            if (state.nextMatch) {
+              const nA = state.nextMatch.teamA.map(id => getPlayer(id)?.name || '').join('＋');
+              const nB = state.nextMatch.teamB.map(id => getPlayer(id)?.name || '').join('＋');
+              nextPrepEl.innerHTML = `
+                <div class="prep-box">
+                  <div class="prep-teams">${nA} <span style="color:var(--primary); margin:0 4px;">VS</span> ${nB}</div>
+                  <span class="pill-tag">${state.nextMatch.isRoundStart ? '新輪首場' : '準備上場'}</span>
+                </div>
+              `;
+            }
+          }
+        }
+
+        const active = getActivePlayers();
+        document.getElementById('activeSummaryTag').textContent = `${active.length} 人出席`;
+        const nextIds = new Set(state.nextMatch ? [...state.nextMatch.teamA, ...state.nextMatch.teamB] : []);
+        const currentIds = new Set(state.currentMatch ? [...state.currentMatch.teamA, ...state.currentMatch.teamB] : []);
+
+        const sortedBench = [...active].sort((a, b) => a.dayGames - b.dayGames);
+        document.getElementById('benchListContainer').innerHTML = sortedBench.map(p => {
+          const onCourt = state.sessionActive && currentIds.has(p.id);
+          const isNext = state.sessionActive && !onCourt && nextIds.has(p.id);
+          return `
+            <span class="bench-chip ${isNext ? 'next-up' : ''}">
+              <span>${p.name}</span>
+              <span class="sub-text">${onCourt ? '場上' : (isNext ? '下一場' : `${p.dayGames}場`)}</span>
+            </span>
+          `;
+        }).join('');
+      }
+
+      function renderPlayersTab() {
+        const active = getActivePlayers();
+        document.getElementById('activeCountBadge').textContent = `出席 ${active.length} 人`;
+        document.getElementById('currentAccountTag').textContent = currentAccount;
+
+        const listEl = document.getElementById('playerListContainer');
+        listEl.innerHTML = state.players.map(p => `
+          <div class="player-item">
+            <div>
+              <div class="player-meta-row">
+                <span>${p.name}</span>
+                <span class="pill-tag ${p.gender === 'F' ? 'f' : ''}">${p.gender === 'F' ? '女' : '男'}</span>
+                <span class="pill-tag">${skillLabel(p.skill)}</span>
+              </div>
+              <div class="sub-text">累計已打 ${p.dayGames} 場 · ${p.dayW}勝 ${p.dayL}負</div>
+            </div>
+            <div class="item-actions">
+              <button type="button" class="mini-icon-btn js-edit-player" data-id="${p.id}">編輯</button>
+              <button type="button" class="mini-icon-btn del js-del-player" data-id="${p.id}">刪除</button>
+              <label class="switch">
+                <input type="checkbox" class="js-toggle-active" data-id="${p.id}" ${p.active ? 'checked' : ''} />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        `).join('');
+
+        listEl.querySelectorAll('.js-toggle-active').forEach(inp => {
+          inp.addEventListener('change', () => {
+            const p = getPlayer(inp.getAttribute('data-id'));
+            if (p) {
+              p.active = !p.active;
+              state.currentMatch = null;
+              syncMatchQueue();
+              saveState();
+              renderAll();
+            }
+          });
+        });
+
+        listEl.querySelectorAll('.js-edit-player').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const p = getPlayer(btn.getAttribute('data-id'));
+            if (!p) return;
+            document.getElementById('editPlayerId').value = p.id;
+            document.getElementById('editPlayerName').value = p.name;
+            document.getElementById('editPlayerGender').value = p.gender;
+            const opts = [1200, 1350, 1500, 1650, 1800];
+            const closest = opts.reduce((prev, curr) => Math.abs(curr - p.skill) < Math.abs(prev - p.skill) ? curr : prev);
+            document.getElementById('editPlayerSkill').value = String(closest);
+            document.getElementById('editPlayerModal').classList.add('open');
+          });
+        });
+
+        listEl.querySelectorAll('.js-del-player').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const p = getPlayer(id);
+            if (!p) return;
+            if (!confirm(`確定要移除「${p.name}」嗎？`)) return;
+            state.players = state.players.filter(item => item.id !== id);
+            state.avoidPairs = state.avoidPairs.filter(pair => pair[0] !== id && pair[1] !== id);
+            state.currentMatch = null;
+            syncMatchQueue();
+            saveState();
+            renderAll();
+            showToast(`已移除「${p.name}」`);
+          });
+        });
+
+        const optionsHtml = state.players.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        document.getElementById('avoidPlayerA').innerHTML = optionsHtml;
+        document.getElementById('avoidPlayerB').innerHTML = optionsHtml;
+        if (state.players.length > 1) document.getElementById('avoidPlayerB').selectedIndex = 1;
+
+        const avoidEl = document.getElementById('avoidListContainer');
+        avoidEl.innerHTML = state.avoidPairs.map((pair, idx) => {
+          const a = getPlayer(pair[0])?.name || '';
+          const b = getPlayer(pair[1])?.name || '';
+          return `
+            <span class="avoid-tag">
+              <span>${a} ✕ ${b}</span>
+              <button type="button" class="js-remove-avoid" data-idx="${idx}" style="border:none; background:transparent; color:var(--danger); font-weight:900; cursor:pointer;">✕</button>
+            </span>
+          `;
+        }).join('');
+
+        avoidEl.querySelectorAll('.js-remove-avoid').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.avoidPairs.splice(parseInt(btn.getAttribute('data-idx'), 10), 1);
+            syncMatchQueue();
+            saveState();
+            renderAll();
+          });
+        });
+      }
+
+      // 對戰紀錄依「每次開始打球～結束收工」做明確分隔區塊與日期時間顯示
+      function renderStatsTab() {
+        document.getElementById('kpiTotalGames').textContent = state.matches.length;
+        document.getElementById('kpi21Games').textContent = state.matches.filter(m => m.mode === 21).length;
+        document.getElementById('kpi11Games').textContent = state.matches.filter(m => m.mode === 11).length;
+
+        const sorted = [...state.players].sort((a, b) => b.dayDelta - a.dayDelta || b.dayW - a.dayW);
+        const standingsEl = document.getElementById('standingsContainer');
+        standingsEl.innerHTML = sorted.map(p => {
+          const sign = p.dayDelta > 0 ? '+' : '';
+          const cls = p.dayDelta > 0 ? 'delta-pos' : (p.dayDelta < 0 ? 'delta-neg' : '');
+          return `
+            <div class="standing-item js-show-trend" data-id="${p.id}">
+              <div>
+                <div style="font-weight:800; font-size:14px;">${p.name} <span class="sub-text">（打 ${p.dayGames} 場）</span></div>
+                <div class="sub-text">${p.dayW}勝 ${p.dayL}負 · 淨勝分 ${p.dayDiff >= 0 ? '+' : ''}${p.dayDiff}</div>
+              </div>
+              <div class="${cls}" style="font-size:15px;">${sign}${p.dayDelta}</div>
+            </div>
+          `;
+        }).join('');
+
+        standingsEl.querySelectorAll('.js-show-trend').forEach(row => {
+          row.addEventListener('click', () => showTrend(row.getAttribute('data-id')));
+        });
+
+        const histEl = document.getElementById('historyContainer');
+        if (state.matches.length === 0) {
+          histEl.innerHTML = `<div class="empty-box">尚無對戰紀錄</div>`;
+          return;
+        }
+
+        // 依 sessionId 分組，並保留時間新到舊順序
+        const sessionMap = new Map();
+        state.sessions.forEach((s, idx) => {
+          sessionMap.set(s.id, {
+            session: s,
+            labelNum: state.sessions.length - idx,
+            items: []
+          });
+        });
+
+        state.matches.forEach(m => {
+          const sid = m.sessionId || 'legacy';
+          if (!sessionMap.has(sid)) {
+            sessionMap.set(sid, {
+              session: { id: sid, startTime: m.playedAt || m.id, endTime: m.playedAt || m.id },
+              labelNum: 1,
+              items: []
+            });
+          }
+          sessionMap.get(sid).items.push(m);
+        });
+
+        let html = '';
+        sessionMap.forEach(group => {
+          if (group.items.length === 0) return;
+          const s = group.session;
+          const startStr = formatDateTime(s.startTime);
+          const endStr = s.endTime ? formatTimeOnly(s.endTime) : '進行中';
+          const isEnded = Boolean(s.endTime);
+
+          html += `
+            <div class="session-group ${isEnded ? 'ended' : ''}">
+              <div class="session-divider-header">
+                <span>場次 #${group.labelNum} · ${startStr} ~ ${endStr}</span>
+                <span>共 ${group.items.length} 局</span>
+              </div>
+              ${group.items.map((m, idx) => `
+                <div class="history-row">
+                  <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:2px;">
+                    <span>第 ${group.items.length - idx} 局（${m.mode}分制 · ${formatTimeOnly(m.playedAt || m.id)}）</span>
+                    <span style="color:var(--primary);">${m.scoreA} : ${m.scoreB}</span>
+                  </div>
+                  <div class="sub-text">${m.teamA.join('＋')} vs. ${m.teamB.join('＋')}</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        });
+
+        histEl.innerHTML = html;
+      }
+
+      function showTrend(playerId) {
+        const p = getPlayer(playerId);
+        if (!p) return;
+        document.getElementById('trendCard').style.display = 'block';
+        document.getElementById('trendTitle').textContent = `${p.name} 戰力趨勢`;
+        document.getElementById('trendSubtitle').textContent = `起始 ${p.history[0]} → 目前 ${p.skill}`;
+        const pts = p.history;
+        const svg = document.getElementById('trendSvg');
+        if (pts.length < 2) {
+          svg.innerHTML = `<text x="160" y="64" text-anchor="middle" fill="#6E768A" font-size="13">再打幾場即可顯示曲線</text>`;
+          return;
+        }
+        const minV = Math.min(...pts) - 15;
+        const maxV = Math.max(...pts) + 15;
+        const spanV = Math.max(1, maxV - minV);
+        const coords = pts.map((val, idx) => [
+          16 + (idx / (pts.length - 1)) * 288,
+          16 + 86 - ((val - minV) / spanV) * 86,
+          val
+        ]);
+        svg.innerHTML = `
+          <polyline fill="none" stroke="#6A5ACD" stroke-width="2.8" stroke-linecap="round" points="${coords.map(c => `${c[0].toFixed(1)},${c[1].toFixed(1)}`).join(' ')}" />
+          ${coords.map(c => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="4" fill="#6A5ACD" />`).join('')}
+        `;
+      }
+
+      function openAccountModal() {
+        const list = getAccountList();
+        const container = document.getElementById('savedAccountsList');
+        container.innerHTML = list.map(acc => {
+          const isCurr = acc === currentAccount;
+          return `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-radius:10px; background:${isCurr ? 'var(--primary-soft)' : 'var(--bg)'}; border:1px solid ${isCurr ? 'var(--primary)' : 'var(--border)'};">
+              <span style="font-weight:800; font-size:13px; color:${isCurr ? 'var(--primary)' : 'var(--text)'};">${acc} ${isCurr ? '（目前使用）' : ''}</span>
+              ${!isCurr ? `<button type="button" class="mini-icon-btn js-switch-acc" data-acc="${acc}">切換</button>` : ''}
+            </div>
+          `;
+        }).join('');
+
+        container.querySelectorAll('.js-switch-acc').forEach(btn => {
+          btn.addEventListener('click', () => {
+            switchAccount(btn.getAttribute('data-acc'));
+            document.getElementById('accountModal').classList.remove('open');
+          });
+        });
+
+        document.getElementById('accountModal').classList.add('open');
+      }
+
+      function switchAccount(accName) {
+        const clean = (accName || '').trim();
+        if (!clean) {
+          showToast('請輸入帳號名稱');
+          return;
+        }
+        saveState();
+        currentAccount = clean;
+        localStorage.setItem(CURRENT_ACCOUNT_KEY, currentAccount);
+        const list = getAccountList();
+        if (!list.includes(currentAccount)) {
+          saveAccountList([...list, currentAccount]);
+        }
+        state = loadStateForAccount(currentAccount);
+        saveState();
+        renderAll();
+        showToast(`已切換至「${currentAccount}」`);
+      }
+
+      function addPlayerInternal(name, gender, skill) {
+        const clean = (name || '').trim();
+        if (!clean) {
+          showToast('請輸入暱稱');
+          return false;
+        }
+        const numSkill = parseInt(skill, 10) || 1500;
+        state.players.push({
+          id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+          name: clean,
+          gender: gender === 'F' ? 'F' : 'M',
+          skill: numSkill,
+          active: true,
+          dayGames: 0,
+          dayW: 0,
+          dayL: 0,
+          dayDiff: 0,
+          dayDelta: 0,
+          history: [numSkill]
+        });
+        syncMatchQueue();
+        saveState();
+        renderAll();
+        showToast(`已加入「${clean}」`);
+        return true;
+      }
+
+      function copySummaryText() {
+        const lines = [`【走啦~打球｜${currentAccount} 戰績】共 ${state.matches.length} 場`];
+        [...state.players]
+          .filter(p => p.dayGames > 0)
+          .sort((a, b) => b.dayDelta - a.dayDelta)
+          .forEach(p => {
+            const sign = p.dayDelta > 0 ? '+' : '';
+            lines.push(`• ${p.name}（${p.dayGames}場）：${p.dayW}勝${p.dayL}負（${sign}${p.dayDelta}）`);
+          });
+        navigator.clipboard?.writeText(lines.join('\n')).then(() => showToast('已複製戰績摘要'));
+      }
+
+      function renderAll() {
+        renderMatchTab();
+        renderPlayersTab();
+        renderStatsTab();
+      }
+
+      // 事件綁定
+      document.getElementById('btnMode21').addEventListener('click', () => setPointMode(21));
+      document.getElementById('btnMode11').addEventListener('click', () => setPointMode(11));
+      document.getElementById('nav-match').addEventListener('click', () => switchTab('match'));
+      document.getElementById('nav-players').addEventListener('click', () => switchTab('players'));
+      document.getElementById('nav-stats').addEventListener('click', () => switchTab('stats'));
+      document.getElementById('btnShuffleNext').addEventListener('click', shuffleNextMatch);
+
+      document.getElementById('btnOpenAccount').addEventListener('click', openAccountModal);
+      document.getElementById('btnSwitchAccountCard').addEventListener('click', openAccountModal);
+      document.getElementById('btnCloseAccount').addEventListener('click', () => {
+        document.getElementById('accountModal').classList.remove('open');
+      });
+      document.getElementById('btnLoginAccount').addEventListener('click', () => {
+        const inp = document.getElementById('accountInput');
+        if (inp.value.trim()) {
+          switchAccount(inp.value);
+          inp.value = '';
+          document.getElementById('accountModal').classList.remove('open');
+        }
+      });
+
+      document.getElementById('btnOpenQuickAdd').addEventListener('click', () => {
+        document.getElementById('quickAddModal').classList.add('open');
+      });
+      document.getElementById('btnCloseQuickAdd').addEventListener('click', () => {
+        document.getElementById('quickAddModal').classList.remove('open');
+      });
+      document.getElementById('btnAddPlayerModal').addEventListener('click', () => {
+        const n = document.getElementById('modalName');
+        if (addPlayerInternal(n.value, document.getElementById('modalGender').value, document.getElementById('modalSkill').value)) {
+          n.value = '';
+          document.getElementById('quickAddModal').classList.remove('open');
+        }
+      });
+
+      document.getElementById('btnAddPlayerForm').addEventListener('click', () => {
+        const n = document.getElementById('newPlayerName');
+        if (addPlayerInternal(n.value, document.getElementById('newPlayerGender').value, document.getElementById('newPlayerSkill').value)) {
+          n.value = '';
+        }
+      });
+
+      document.getElementById('btnCloseEditModal').addEventListener('click', () => {
+        document.getElementById('editPlayerModal').classList.remove('open');
+      });
+      document.getElementById('btnSaveEditPlayer').addEventListener('click', () => {
+        const id = document.getElementById('editPlayerId').value;
+        const p = getPlayer(id);
+        if (!p) return;
+        const newName = document.getElementById('editPlayerName').value.trim();
+        if (!newName) {
+          showToast('暱稱不能為空');
+          return;
+        }
+        p.name = newName;
+        p.gender = document.getElementById('editPlayerGender').value;
+        p.skill = parseInt(document.getElementById('editPlayerSkill').value, 10) || 1500;
+        document.getElementById('editPlayerModal').classList.remove('open');
+        syncMatchQueue();
+        saveState();
+        renderAll();
+        showToast('已更新球友資料');
+      });
+
+      document.getElementById('btnAddAvoidPair').addEventListener('click', () => {
+        const a = document.getElementById('avoidPlayerA').value;
+        const b = document.getElementById('avoidPlayerB').value;
+        if (!a || !b || a === b || isAvoidPair(a, b)) {
+          showToast('請選擇兩位尚未設定的球友');
+          return;
+        }
+        state.avoidPairs.push([a, b]);
+        syncMatchQueue();
+        saveState();
+        renderAll();
+        showToast('已加入不要同組');
+      });
+
+      document.getElementById('btnCloseScoreModal').addEventListener('click', () => {
+        document.getElementById('scoreModal').classList.remove('open');
+      });
+      document.getElementById('btnApplyManualScore').addEventListener('click', applyManualScore);
+
+      document.getElementById('btnCloseSummaryModal').addEventListener('click', () => {
+        document.getElementById('summaryModal').classList.remove('open');
+      });
+      document.getElementById('btnConfirmEndReset').addEventListener('click', confirmEndSession);
+      document.getElementById('btnModalCopySummary').addEventListener('click', copySummaryText);
+      document.getElementById('btnCopySummary').addEventListener('click', copySummaryText);
+      document.getElementById('btnCloseTrend').addEventListener('click', () => {
+        document.getElementById('trendCard').style.display = 'none';
+      });
+
+      document.getElementById('btnExportJson').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `lets-play-${currentAccount}-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('btnImportJsonTrigger').addEventListener('click', () => {
+        document.getElementById('importFileInput').click();
+      });
+
+      document.getElementById('importFileInput').addEventListener('change', e => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            state = Object.assign(cloneDefault(), JSON.parse(reader.result));
+            saveState();
+            renderAll();
+            showToast('已匯入備份');
+          } catch (err) {
+            showToast('檔案格式錯誤');
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+      });
+
+      document.getElementById('btnResetDemo').addEventListener('click', () => {
+        if (!confirm('確定要重設目前帳號的範例資料嗎？')) return;
+        state = cloneDefault();
+        saveState();
+        renderAll();
+        showToast('已重設範例');
+      });
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
