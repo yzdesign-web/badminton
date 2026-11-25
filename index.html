@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="走啦~打球" />
+  <link rel="icon" type="image/png" href="./badminton go.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./badminton go.png" />
   <title>走啦~打球</title>
   <style>
     :root {
@@ -38,7 +41,6 @@
       touch-action: manipulation;
     }
 
-    /* 頂部紫色橫幅 */
     .purple-banner {
       background: linear-gradient(135deg, #6A5ACD 0%, #5848B8 100%);
       color: #FFFFFF;
@@ -175,7 +177,6 @@
       cursor: pointer;
     }
 
-    /* 紫色羽球場上場區 */
     .court-card {
       background: linear-gradient(160deg, #6A5ACD 0%, #5646B5 100%);
       border-radius: 22px;
@@ -342,7 +343,6 @@
       cursor: pointer;
     }
 
-    /* 白色準備區卡片 */
     .white-card {
       background: var(--card);
       border-radius: var(--radius);
@@ -434,7 +434,6 @@
       color: var(--primary);
     }
 
-    /* 球友管理 */
     .form-grid-simple {
       display: grid;
       grid-template-columns: 1.6fr 0.8fr auto;
@@ -569,7 +568,6 @@
       margin: 6px 6px 0 0;
     }
 
-    /* 戰績頁與場次分隔區塊 */
     .kpi-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -741,21 +739,17 @@
 <body>
   <div id="toast" class="toast"></div>
 
-  <!-- 頂部紫色橫幅（精準 SVG 還原 shuttlecock (1).png） -->
   <header class="purple-banner">
     <div class="banner-inner">
       <div class="brand">
         <svg class="shuttle-icon" viewBox="0 0 100 100" fill="none">
           <g transform="rotate(-45 50 50)">
-            <!-- 4 片圓頂羽片 -->
             <path d="M23 18C23 13.5 26.5 10 31 10C35 10 38 12.8 38.5 16.5L41 37H25.5L23 18Z" fill="#FFFFFF"/>
             <path d="M36 14C36 9.5 39.5 6 44 6C48 6 51 8.8 51.5 12.5L52 37H38L36 14Z" fill="#FFFFFF"/>
             <path d="M49 14C49 9.5 52.5 6 57 6C61 6 64 8.8 64.5 12.5L63.5 37H50L49 14Z" fill="#FFFFFF"/>
             <path d="M62 18C62 13.5 65.5 10 70 10C74 10 77 12.8 77.5 16.5L74.5 37H61L62 18Z" fill="#FFFFFF"/>
-            <!-- 兩道羽托編織橫帶（保留紫色縫隙呈現層次） -->
             <rect x="27" y="40.5" width="46" height="6.5" rx="1.5" fill="#FFFFFF"/>
             <rect x="30" y="50.5" width="40" height="6.5" rx="1.5" fill="#FFFFFF"/>
-            <!-- 底部圓弧球頭 -->
             <path d="M32 61H68V66C68 76 60 84 50 84C40 84 32 76 32 66V61Z" fill="#FFFFFF"/>
           </g>
         </svg>
@@ -774,7 +768,6 @@
   </header>
 
   <div class="app-wrap">
-    <!-- 分頁 1：排場計分 -->
     <section id="tab-match" class="tab-view">
       <div class="session-bar">
         <div class="session-status">
@@ -803,7 +796,6 @@
       </div>
     </section>
 
-    <!-- 分頁 2：球友管理（已移除強弱階欄位） -->
     <section id="tab-players" class="tab-view" style="display:none;">
       <div class="white-card">
         <div class="card-header">
@@ -855,7 +847,6 @@
       </div>
     </section>
 
-    <!-- 分頁 3：戰績結算 -->
     <section id="tab-stats" class="tab-view" style="display:none;">
       <div class="white-card">
         <div class="card-header">
@@ -903,7 +894,6 @@
     <button type="button" id="nav-stats" class="nav-btn">戰績結算</button>
   </nav>
 
-  <!-- 彈窗：球團／帳號切換 -->
   <div id="accountModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -919,7 +909,6 @@
     </div>
   </div>
 
-  <!-- 彈窗：臨時加球友（已移除強弱階） -->
   <div id="quickAddModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -937,7 +926,6 @@
     </div>
   </div>
 
-  <!-- 彈窗：編輯球友（已移除強弱階） -->
   <div id="editPlayerModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -956,7 +944,6 @@
     </div>
   </div>
 
-  <!-- 彈窗：直接輸入比分 -->
   <div id="scoreModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -977,7 +964,6 @@
     </div>
   </div>
 
-  <!-- 彈窗：本場次結束結算 -->
   <div id="summaryModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -997,7 +983,6 @@
       const ACCOUNT_INDEX_KEY = 'lets_play_accounts_v2';
       const CURRENT_ACCOUNT_KEY = 'lets_play_current_account_v2';
 
-      // 空白模板（預設球團與新建立球團皆不含任何球員）
       const EMPTY_STATE = {
         sessionActive: false,
         currentSessionId: null,
@@ -1011,7 +996,6 @@
         matches: []
       };
 
-      // 預設內建「周五羽球團」名單（依附圖建立：Peter, Amy, Anna, Eric, Max, Winston, Dlyan）
       const FRIDAY_CLUB_STATE = {
         sessionActive: false,
         currentSessionId: null,
@@ -1025,7 +1009,7 @@
           { id: 'fri_6', name: 'Winston', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
           { id: 'fri_7', name: 'Dlyan', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] }
         ],
-        avoidPairs: [['fri_2', 'fri_3']], // Amy 与 Anna 拆開混雙對打
+        avoidPairs: [['fri_2', 'fri_3']],
         currentMatch: null,
         nextMatch: null,
         scoreHistoryStack: [],
@@ -1061,7 +1045,6 @@
           localStorage.setItem(ACCOUNT_INDEX_KEY, JSON.stringify(list));
         }
 
-        // 確保周五羽球團若尚未寫入本機則初始化預載名單
         if (!localStorage.getItem(storageKeyForAccount('周五羽球團'))) {
           localStorage.setItem(storageKeyForAccount('周五羽球團'), JSON.stringify(cloneObj(FRIDAY_CLUB_STATE)));
         }
@@ -1172,7 +1155,6 @@
         return penalty;
       }
 
-      // 隨機分隊＋均勻輪替＋每一輪首場女生優先＋2女拆混雙＋不要同組
       function buildMatchFromVirtualGames(virtualGamesMap, extraRecentMatches = []) {
         const active = getActivePlayers();
         if (active.length < 4) return null;
@@ -1402,7 +1384,6 @@
         renderMatchTab();
       }
 
-      // 純戰績積分計算（不再依賴初始強弱階，21分制權重 1.0x、11分制權重 0.5x）
       function finishMatch() {
         if (!state.sessionActive) {
           showToast('請先按「開始打球」');
@@ -1923,7 +1904,6 @@
         renderStatsTab();
       }
 
-      // 事件綁定
       document.getElementById('btnMode21').addEventListener('click', () => setPointMode(21));
       document.getElementById('btnMode11').addEventListener('click', () => setPointMode(11));
       document.getElementById('nav-match').addEventListener('click', () => switchTab('match'));
