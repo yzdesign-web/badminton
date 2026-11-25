@@ -61,7 +61,7 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       font-size: 18px;
       font-weight: 900;
       letter-spacing: 0.3px;
@@ -435,19 +435,10 @@
     }
 
     /* 球友管理 */
-    .form-grid {
+    .form-grid-simple {
       display: grid;
-      grid-template-columns: 1.3fr 0.8fr 1fr auto;
-      gap: 7px;
-    }
-
-    @media (max-width: 500px) {
-      .form-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .form-grid .span2 {
-        grid-column: span 2;
-      }
+      grid-template-columns: 1.6fr 0.8fr auto;
+      gap: 8px;
     }
 
     input, select {
@@ -470,6 +461,7 @@
       padding: 9px 14px;
       border-radius: 10px;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .player-item {
@@ -614,7 +606,6 @@
     .delta-pos { color: var(--success); font-weight: 900; }
     .delta-neg { color: var(--danger); font-weight: 900; }
 
-    /* 每次開打～收工的場次分隔區塊 */
     .session-group {
       border-left: 4px solid var(--primary);
       background: rgba(106, 90, 205, 0.03);
@@ -750,18 +741,23 @@
 <body>
   <div id="toast" class="toast"></div>
 
-  <!-- 頂部紫色橫幅（精修實心斜向羽球 Icon） -->
+  <!-- 頂部紫色橫幅（精準 SVG 還原 shuttlecock (1).png） -->
   <header class="purple-banner">
     <div class="banner-inner">
       <div class="brand">
-        <svg class="shuttle-icon" viewBox="0 0 64 64" fill="none">
-          <!-- 球頭（右下實心半圓弧） -->
-          <path d="M35.5 48.5L48.5 35.5C53.2 40.2 53.2 47.8 48.5 52.5C43.8 57.2 36.2 57.2 31.5 52.5L35.5 48.5Z" fill="#FFFFFF"/>
-          <!-- 4 片獨立羽毛（由上至下階梯斜向展開） -->
-          <path d="M29 9H36L46.5 32.5L42 37L27 14V9H29Z" fill="#FFFFFF"/>
-          <path d="M21 16H27.5L40.5 38.5L36.5 42.5L19 21V16H21Z" fill="#FFFFFF"/>
-          <path d="M14 23H20.5L35 44L31 48L12 28V23H14Z" fill="#FFFFFF"/>
-          <path d="M8 31H14.5L29.5 49.5L26 53L6 36V31H8Z" fill="#FFFFFF"/>
+        <svg class="shuttle-icon" viewBox="0 0 100 100" fill="none">
+          <g transform="rotate(-45 50 50)">
+            <!-- 4 片圓頂羽片 -->
+            <path d="M23 18C23 13.5 26.5 10 31 10C35 10 38 12.8 38.5 16.5L41 37H25.5L23 18Z" fill="#FFFFFF"/>
+            <path d="M36 14C36 9.5 39.5 6 44 6C48 6 51 8.8 51.5 12.5L52 37H38L36 14Z" fill="#FFFFFF"/>
+            <path d="M49 14C49 9.5 52.5 6 57 6C61 6 64 8.8 64.5 12.5L63.5 37H50L49 14Z" fill="#FFFFFF"/>
+            <path d="M62 18C62 13.5 65.5 10 70 10C74 10 77 12.8 77.5 16.5L74.5 37H61L62 18Z" fill="#FFFFFF"/>
+            <!-- 兩道羽托編織橫帶（保留紫色縫隙呈現層次） -->
+            <rect x="27" y="40.5" width="46" height="6.5" rx="1.5" fill="#FFFFFF"/>
+            <rect x="30" y="50.5" width="40" height="6.5" rx="1.5" fill="#FFFFFF"/>
+            <!-- 底部圓弧球頭 -->
+            <path d="M32 61H68V66C68 76 60 84 50 84C40 84 32 76 32 66V61Z" fill="#FFFFFF"/>
+          </g>
         </svg>
         <span>走啦~打球</span>
       </div>
@@ -771,7 +767,7 @@
           <button type="button" id="btnMode21" class="mode-btn active">21分</button>
           <button type="button" id="btnMode11" class="mode-btn">11分</button>
         </div>
-        <button type="button" id="btnOpenAccount" class="banner-btn">帳號</button>
+        <button type="button" id="btnOpenAccount" class="banner-btn">預設球團</button>
         <button type="button" id="btnOpenQuickAdd" class="banner-btn">+ 球友</button>
       </div>
     </div>
@@ -807,26 +803,19 @@
       </div>
     </section>
 
-    <!-- 分頁 2：球友管理 -->
+    <!-- 分頁 2：球友管理（已移除強弱階欄位） -->
     <section id="tab-players" class="tab-view" style="display:none;">
       <div class="white-card">
         <div class="card-header">
           <h2 class="card-title">新增球友</h2>
         </div>
-        <div class="form-grid">
-          <input id="newPlayerName" class="span2" type="text" placeholder="暱稱" />
+        <div class="form-grid-simple">
+          <input id="newPlayerName" type="text" placeholder="暱稱" />
           <select id="newPlayerGender">
             <option value="M">男</option>
             <option value="F">女</option>
           </select>
-          <select id="newPlayerSkill">
-            <option value="1200">初階</option>
-            <option value="1350">中初</option>
-            <option value="1500" selected>中階</option>
-            <option value="1650">中進階</option>
-            <option value="1800">進階</option>
-          </select>
-          <button type="button" id="btnAddPlayerForm" class="btn-primary span2">新增</button>
+          <button type="button" id="btnAddPlayerForm" class="btn-primary">新增</button>
         </div>
       </div>
 
@@ -843,7 +832,7 @@
           <h2 class="card-title">不要同組設定</h2>
           <span class="pill-tag f">2女自動拆混雙</span>
         </div>
-        <div class="form-grid" style="grid-template-columns: 1fr 1fr auto;">
+        <div class="form-grid-simple">
           <select id="avoidPlayerA"></select>
           <select id="avoidPlayerB"></select>
           <button type="button" id="btnAddAvoidPair" class="btn-outline">加入</button>
@@ -853,15 +842,15 @@
 
       <div class="white-card">
         <div class="card-header">
-          <h2 class="card-title">目前帳號與備份</h2>
+          <h2 class="card-title">目前球團與備份</h2>
           <span id="currentAccountTag" class="pill-tag">預設球團</span>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button type="button" id="btnSwitchAccountCard" class="mini-icon-btn">切換 / 建立帳號</button>
+          <button type="button" id="btnSwitchAccountCard" class="mini-icon-btn">切換 / 建立球團</button>
           <button type="button" id="btnExportJson" class="mini-icon-btn">匯出備份</button>
           <button type="button" id="btnImportJsonTrigger" class="mini-icon-btn">匯入備份</button>
           <input id="importFileInput" type="file" accept=".json" style="display:none;" />
-          <button type="button" id="btnResetDemo" class="mini-icon-btn del">重設範例</button>
+          <button type="button" id="btnResetDemo" class="mini-icon-btn del">清空目前紀錄</button>
         </div>
       </div>
     </section>
@@ -892,7 +881,7 @@
 
       <div id="trendCard" class="white-card" style="display:none;">
         <div class="card-header">
-          <h2 id="trendTitle" class="card-title">戰力曲線</h2>
+          <h2 id="trendTitle" class="card-title">表現積分曲線</h2>
           <button type="button" id="btnCloseTrend" class="mini-icon-btn">關閉</button>
         </div>
         <div id="trendSubtitle" class="sub-text" style="margin-bottom:8px;"></div>
@@ -914,26 +903,23 @@
     <button type="button" id="nav-stats" class="nav-btn">戰績結算</button>
   </nav>
 
-  <!-- 彈窗：帳號登入／球團切換 -->
+  <!-- 彈窗：球團／帳號切換 -->
   <div id="accountModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
-        <h3 class="card-title">帳號與球團紀錄</h3>
+        <h3 class="card-title">切換 / 建立球團</h3>
         <button type="button" id="btnCloseAccount" class="mini-icon-btn">✕</button>
       </div>
-      <div class="sub-text" style="margin-bottom:10px;">
-        輸入帳號名稱（例如「週三羽球團」或個人 Email），不同帳號的名單與對戰紀錄會分開保存。
-      </div>
       <div style="display:flex; gap:8px; margin-bottom:12px;">
-        <input id="accountInput" type="text" placeholder="輸入新帳號或球團名稱" />
-        <button type="button" id="btnLoginAccount" class="btn-primary" style="white-space:nowrap;">登入 / 建立</button>
+        <input id="accountInput" type="text" placeholder="輸入新球團名稱" />
+        <button type="button" id="btnLoginAccount" class="btn-primary">建立 / 切換</button>
       </div>
-      <div class="sub-text" style="font-weight:800; margin-bottom:6px;">已儲存的帳號：</div>
+      <div class="sub-text" style="font-weight:800; margin-bottom:6px;">已儲存的球團：</div>
       <div id="savedAccountsList" style="display:flex; flex-direction:column; gap:6px;"></div>
     </div>
   </div>
 
-  <!-- 彈窗：臨時加球友 -->
+  <!-- 彈窗：臨時加球友（已移除強弱階） -->
   <div id="quickAddModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -946,19 +932,12 @@
           <option value="M">男</option>
           <option value="F">女</option>
         </select>
-        <select id="modalSkill">
-          <option value="1200">初階</option>
-          <option value="1350">中初</option>
-          <option value="1500" selected>中階</option>
-          <option value="1650">中進階</option>
-          <option value="1800">進階</option>
-        </select>
         <button type="button" id="btnAddPlayerModal" class="btn-primary">加入</button>
       </div>
     </div>
   </div>
 
-  <!-- 彈窗：編輯球友 -->
+  <!-- 彈窗：編輯球友（已移除強弱階） -->
   <div id="editPlayerModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -971,13 +950,6 @@
         <select id="editPlayerGender">
           <option value="M">男</option>
           <option value="F">女</option>
-        </select>
-        <select id="editPlayerSkill">
-          <option value="1200">初階</option>
-          <option value="1350">中初</option>
-          <option value="1500">中階</option>
-          <option value="1650">中進階</option>
-          <option value="1800">進階</option>
         </select>
         <button type="button" id="btnSaveEditPlayer" class="btn-primary">儲存修改</button>
       </div>
@@ -1005,7 +977,7 @@
     </div>
   </div>
 
-  <!-- 彈窗：今日結束結算 -->
+  <!-- 彈窗：本場次結束結算 -->
   <div id="summaryModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
@@ -1022,40 +994,87 @@
 
   <script>
     (function () {
-      const ACCOUNT_INDEX_KEY = 'lets_play_accounts_v1';
-      const CURRENT_ACCOUNT_KEY = 'lets_play_current_account_v1';
+      const ACCOUNT_INDEX_KEY = 'lets_play_accounts_v2';
+      const CURRENT_ACCOUNT_KEY = 'lets_play_current_account_v2';
 
-      const DEFAULT_STATE = {
+      // 空白模板（預設球團與新建立球團皆不含任何球員）
+      const EMPTY_STATE = {
+        sessionActive: false,
+        currentSessionId: null,
+        pointMode: 21,
+        players: [],
+        avoidPairs: [],
+        currentMatch: null,
+        nextMatch: null,
+        scoreHistoryStack: [],
+        sessions: [],
+        matches: []
+      };
+
+      // 預設內建「周五羽球團」名單（依附圖建立：Peter, Amy, Anna, Eric, Max, Winston, Dlyan）
+      const FRIDAY_CLUB_STATE = {
         sessionActive: false,
         currentSessionId: null,
         pointMode: 21,
         players: [
-          { id: 'p1', name: '阿P', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p2', name: 'Amy', gender: 'F', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p3', name: 'Rex', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p4', name: 'Anna', gender: 'F', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p5', name: 'Eric', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p6', name: 'Max', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] },
-          { id: 'p7', name: 'Winston', gender: 'M', skill: 1500, active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [1500] }
+          { id: 'fri_1', name: 'Peter', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_2', name: 'Amy', gender: 'F', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_3', name: 'Anna', gender: 'F', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_4', name: 'Eric', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_5', name: 'Max', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_6', name: 'Winston', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] },
+          { id: 'fri_7', name: 'Dlyan', gender: 'M', active: true, dayGames: 0, dayW: 0, dayL: 0, dayDiff: 0, dayDelta: 0, history: [0] }
         ],
-        avoidPairs: [['p2', 'p4']],
+        avoidPairs: [['fri_2', 'fri_3']], // Amy 与 Anna 拆開混雙對打
         currentMatch: null,
         nextMatch: null,
         scoreHistoryStack: [],
-        sessions: [], // 每次「開始打球 -> 結束收工」的場次區塊
+        sessions: [],
         matches: []
       };
 
-      function cloneDefault() {
-        return JSON.parse(JSON.stringify(DEFAULT_STATE));
+      function cloneObj(obj) {
+        return JSON.parse(JSON.stringify(obj));
       }
+
+      function getDefaultTemplateForAccount(acc) {
+        if (acc === '周五羽球團') return cloneObj(FRIDAY_CLUB_STATE);
+        return cloneObj(EMPTY_STATE);
+      }
+
+      function storageKeyForAccount(acc) {
+        return 'lets_play_v2_data_' + encodeURIComponent(acc);
+      }
+
+      function initializeDefaultClubs() {
+        let list = [];
+        try {
+          list = JSON.parse(localStorage.getItem(ACCOUNT_INDEX_KEY) || '[]');
+        } catch (e) {
+          list = [];
+        }
+        if (!Array.isArray(list) || list.length === 0) {
+          list = ['預設球團', '周五羽球團'];
+          localStorage.setItem(ACCOUNT_INDEX_KEY, JSON.stringify(list));
+        } else if (!list.includes('周五羽球團')) {
+          list.push('周五羽球團');
+          localStorage.setItem(ACCOUNT_INDEX_KEY, JSON.stringify(list));
+        }
+
+        // 確保周五羽球團若尚未寫入本機則初始化預載名單
+        if (!localStorage.getItem(storageKeyForAccount('周五羽球團'))) {
+          localStorage.setItem(storageKeyForAccount('周五羽球團'), JSON.stringify(cloneObj(FRIDAY_CLUB_STATE)));
+        }
+      }
+
+      initializeDefaultClubs();
 
       function getAccountList() {
         try {
           const list = JSON.parse(localStorage.getItem(ACCOUNT_INDEX_KEY) || '[]');
-          return list.length ? list : ['預設球團'];
+          return list.length ? list : ['預設球團', '周五羽球團'];
         } catch (e) {
-          return ['預設球團'];
+          return ['預設球團', '周五羽球團'];
         }
       }
 
@@ -1070,18 +1089,14 @@
         saveAccountList([...getAccountList(), currentAccount]);
       }
 
-      function storageKeyForAccount(acc) {
-        return 'lets_play_data_' + encodeURIComponent(acc);
-      }
-
       function loadStateForAccount(acc) {
         try {
           const raw = localStorage.getItem(storageKeyForAccount(acc));
-          if (!raw) return cloneDefault();
+          if (!raw) return getDefaultTemplateForAccount(acc);
           const parsed = JSON.parse(raw);
-          return Object.assign(cloneDefault(), parsed);
+          return Object.assign(cloneObj(EMPTY_STATE), parsed);
         } catch (e) {
-          return cloneDefault();
+          return getDefaultTemplateForAccount(acc);
         }
       }
 
@@ -1128,14 +1143,6 @@
         );
       }
 
-      function skillLabel(skill) {
-        if (skill <= 1250) return '初階';
-        if (skill <= 1400) return '中初';
-        if (skill <= 1550) return '中階';
-        if (skill <= 1700) return '中進階';
-        return '進階';
-      }
-
       function isRoundOpener(active, virtualGamesMap) {
         if (active.length < 4) return false;
         const counts = active.map(p => virtualGamesMap[p.id] ?? p.dayGames);
@@ -1165,6 +1172,7 @@
         return penalty;
       }
 
+      // 隨機分隊＋均勻輪替＋每一輪首場女生優先＋2女拆混雙＋不要同組
       function buildMatchFromVirtualGames(virtualGamesMap, extraRecentMatches = []) {
         const active = getActivePlayers();
         if (active.length < 4) return null;
@@ -1266,7 +1274,7 @@
       function startSession() {
         const active = getActivePlayers();
         if (active.length < 4) {
-          showToast('請先到「球友設定」勾選至少 4 人');
+          showToast('請先到「球友設定」新增並勾選至少 4 人');
           return;
         }
         const now = Date.now();
@@ -1296,7 +1304,7 @@
         let html = `<div class="kpi-row">
           <div class="kpi-box"><div class="kpi-num">${sessionMatches.length}</div><div class="sub-text">本場次局數</div></div>
           <div class="kpi-box"><div class="kpi-num">${active.length}</div><div class="sub-text">出席人數</div></div>
-          <div class="kpi-box"><div class="kpi-num">${playedPlayers[0] ? playedPlayers[0].name : '-'}</div><div class="sub-text">累計MVP</div></div>
+          <div class="kpi-box"><div class="kpi-num">${playedPlayers[0] ? playedPlayers[0].name : '-'}</div><div class="sub-text">積分最高</div></div>
         </div>`;
 
         if (playedPlayers.length === 0) {
@@ -1394,6 +1402,7 @@
         renderMatchTab();
       }
 
+      // 純戰績積分計算（不再依賴初始強弱階，21分制權重 1.0x、11分制權重 0.5x）
       function finishMatch() {
         if (!state.sessionActive) {
           showToast('請先按「開始打球」');
@@ -1407,30 +1416,24 @@
         }
 
         const modeWeight = m.mode === 21 ? 1.0 : 0.5;
-        const baseK = 24 * modeWeight;
         const diffPoints = Math.abs(m.scoreA - m.scoreB);
-        const marginBonus = Math.min(8, diffPoints * 0.6 * modeWeight);
+        const marginBonus = Math.min(8, Math.round(diffPoints * 0.5));
+        const aWon = m.scoreA > m.scoreB;
+
+        const deltaA = Math.round(((aWon ? 12 : -8) + (aWon ? marginBonus : -Math.floor(marginBonus * 0.5))) * modeWeight);
+        const deltaB = Math.round(((!aWon ? 12 : -8) + (!aWon ? marginBonus : -Math.floor(marginBonus * 0.5))) * modeWeight);
 
         const teamAPlayers = m.teamA.map(getPlayer).filter(Boolean);
         const teamBPlayers = m.teamB.map(getPlayer).filter(Boolean);
-
-        const avgA = teamAPlayers.reduce((acc, p) => acc + p.skill, 0) / 2;
-        const avgB = teamBPlayers.reduce((acc, p) => acc + p.skill, 0) / 2;
-        const expA = 1 / (1 + Math.pow(10, (avgB - avgA) / 400));
-        const expB = 1 - expA;
-
-        const aWon = m.scoreA > m.scoreB;
-        const deltaA = Math.round(baseK * ((aWon ? 1 : 0) - expA) + (aWon ? marginBonus : -marginBonus * 0.6));
-        const deltaB = Math.round(baseK * ((!aWon ? 1 : 0) - expB) + (!aWon ? marginBonus : -marginBonus * 0.6));
 
         teamAPlayers.forEach(p => {
           p.dayGames += 1;
           p.dayW += aWon ? 1 : 0;
           p.dayL += aWon ? 0 : 1;
           p.dayDiff += (m.scoreA - m.scoreB);
-          p.skill = Math.max(900, p.skill + deltaA);
           p.dayDelta += deltaA;
-          p.history.push(p.skill);
+          if (!Array.isArray(p.history) || p.history.length === 0) p.history = [0];
+          p.history.push(p.dayDelta);
         });
 
         teamBPlayers.forEach(p => {
@@ -1438,9 +1441,9 @@
           p.dayW += !aWon ? 1 : 0;
           p.dayL += !aWon ? 0 : 1;
           p.dayDiff += (m.scoreB - m.scoreA);
-          p.skill = Math.max(900, p.skill + deltaB);
           p.dayDelta += deltaB;
-          p.history.push(p.skill);
+          if (!Array.isArray(p.history) || p.history.length === 0) p.history = [0];
+          p.history.push(p.dayDelta);
         });
 
         const now = Date.now();
@@ -1499,7 +1502,7 @@
       function renderMatchTab() {
         document.getElementById('btnMode21').classList.toggle('active', state.pointMode === 21);
         document.getElementById('btnMode11').classList.toggle('active', state.pointMode === 11);
-        document.getElementById('btnOpenAccount').textContent = currentAccount.length > 5 ? currentAccount.slice(0, 5) + '…' : currentAccount;
+        document.getElementById('btnOpenAccount').textContent = currentAccount.length > 6 ? currentAccount.slice(0, 6) + '…' : currentAccount;
 
         const dot = document.getElementById('sessionDot');
         const label = document.getElementById('sessionLabel');
@@ -1522,14 +1525,18 @@
         const nextPrepEl = document.getElementById('nextPrepContainer');
 
         if (!state.sessionActive) {
+          const activeCount = getActivePlayers().length;
           courtSection.innerHTML = `
             <div class="court-card" style="text-align:center; padding:26px 16px;">
-              <div style="font-size:17px; font-weight:900; margin-bottom:6px;">球場已就緒</div>
-              <div style="font-size:13px; opacity:0.88; margin-bottom:14px;">確認出席名單後，點擊「開始打球」自動分配站位</div>
-              <button type="button" id="btnCardStart" class="btn-court-solid" style="padding:10px 24px;">開始打球</button>
+              <div style="font-size:17px; font-weight:900; margin-bottom:6px;">${activeCount >= 4 ? '球場已就緒' : '尚未加入足夠球友'}</div>
+              <div style="font-size:13px; opacity:0.88; margin-bottom:14px;">${activeCount >= 4 ? '點擊「開始打球」自動分配站位' : '請先至「球友設定」新增至少 4 位球友'}</div>
+              <button type="button" id="btnCardStart" class="btn-court-solid" style="padding:10px 24px;">${activeCount >= 4 ? '開始打球' : '前往新增球友'}</button>
             </div>
           `;
-          document.getElementById('btnCardStart').addEventListener('click', startSession);
+          document.getElementById('btnCardStart').addEventListener('click', () => {
+            if (activeCount >= 4) startSession();
+            else switchTab('players');
+          });
           nextPrepEl.innerHTML = `<div class="empty-box">開打後自動顯示下一場名單</div>`;
         } else {
           syncMatchQueue();
@@ -1608,16 +1615,18 @@
         const currentIds = new Set(state.currentMatch ? [...state.currentMatch.teamA, ...state.currentMatch.teamB] : []);
 
         const sortedBench = [...active].sort((a, b) => a.dayGames - b.dayGames);
-        document.getElementById('benchListContainer').innerHTML = sortedBench.map(p => {
-          const onCourt = state.sessionActive && currentIds.has(p.id);
-          const isNext = state.sessionActive && !onCourt && nextIds.has(p.id);
-          return `
-            <span class="bench-chip ${isNext ? 'next-up' : ''}">
-              <span>${p.name}</span>
-              <span class="sub-text">${onCourt ? '場上' : (isNext ? '下一場' : `${p.dayGames}場`)}</span>
-            </span>
-          `;
-        }).join('');
+        document.getElementById('benchListContainer').innerHTML = sortedBench.length === 0
+          ? `<div class="empty-box" style="width:100%;">尚未加入球友</div>`
+          : sortedBench.map(p => {
+              const onCourt = state.sessionActive && currentIds.has(p.id);
+              const isNext = state.sessionActive && !onCourt && nextIds.has(p.id);
+              return `
+                <span class="bench-chip ${isNext ? 'next-up' : ''}">
+                  <span>${p.name}</span>
+                  <span class="sub-text">${onCourt ? '場上' : (isNext ? '下一場' : `${p.dayGames}場`)}</span>
+                </span>
+              `;
+            }).join('');
       }
 
       function renderPlayersTab() {
@@ -1626,26 +1635,29 @@
         document.getElementById('currentAccountTag').textContent = currentAccount;
 
         const listEl = document.getElementById('playerListContainer');
-        listEl.innerHTML = state.players.map(p => `
-          <div class="player-item">
-            <div>
-              <div class="player-meta-row">
-                <span>${p.name}</span>
-                <span class="pill-tag ${p.gender === 'F' ? 'f' : ''}">${p.gender === 'F' ? '女' : '男'}</span>
-                <span class="pill-tag">${skillLabel(p.skill)}</span>
+        if (state.players.length === 0) {
+          listEl.innerHTML = `<div class="empty-box">目前尚無球員，請在上方輸入暱稱與性別新增</div>`;
+        } else {
+          listEl.innerHTML = state.players.map(p => `
+            <div class="player-item">
+              <div>
+                <div class="player-meta-row">
+                  <span>${p.name}</span>
+                  <span class="pill-tag ${p.gender === 'F' ? 'f' : ''}">${p.gender === 'F' ? '女' : '男'}</span>
+                </div>
+                <div class="sub-text">累計已打 ${p.dayGames} 場 · ${p.dayW}勝 ${p.dayL}負</div>
               </div>
-              <div class="sub-text">累計已打 ${p.dayGames} 場 · ${p.dayW}勝 ${p.dayL}負</div>
+              <div class="item-actions">
+                <button type="button" class="mini-icon-btn js-edit-player" data-id="${p.id}">編輯</button>
+                <button type="button" class="mini-icon-btn del js-del-player" data-id="${p.id}">刪除</button>
+                <label class="switch">
+                  <input type="checkbox" class="js-toggle-active" data-id="${p.id}" ${p.active ? 'checked' : ''} />
+                  <span class="slider"></span>
+                </label>
+              </div>
             </div>
-            <div class="item-actions">
-              <button type="button" class="mini-icon-btn js-edit-player" data-id="${p.id}">編輯</button>
-              <button type="button" class="mini-icon-btn del js-del-player" data-id="${p.id}">刪除</button>
-              <label class="switch">
-                <input type="checkbox" class="js-toggle-active" data-id="${p.id}" ${p.active ? 'checked' : ''} />
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-        `).join('');
+          `).join('');
+        }
 
         listEl.querySelectorAll('.js-toggle-active').forEach(inp => {
           inp.addEventListener('change', () => {
@@ -1667,9 +1679,6 @@
             document.getElementById('editPlayerId').value = p.id;
             document.getElementById('editPlayerName').value = p.name;
             document.getElementById('editPlayerGender').value = p.gender;
-            const opts = [1200, 1350, 1500, 1650, 1800];
-            const closest = opts.reduce((prev, curr) => Math.abs(curr - p.skill) < Math.abs(prev - p.skill) ? curr : prev);
-            document.getElementById('editPlayerSkill').value = String(closest);
             document.getElementById('editPlayerModal').classList.add('open');
           });
         });
@@ -1717,7 +1726,6 @@
         });
       }
 
-      // 對戰紀錄依「每次開始打球～結束收工」做明確分隔區塊與日期時間顯示
       function renderStatsTab() {
         document.getElementById('kpiTotalGames').textContent = state.matches.length;
         document.getElementById('kpi21Games').textContent = state.matches.filter(m => m.mode === 21).length;
@@ -1725,19 +1733,23 @@
 
         const sorted = [...state.players].sort((a, b) => b.dayDelta - a.dayDelta || b.dayW - a.dayW);
         const standingsEl = document.getElementById('standingsContainer');
-        standingsEl.innerHTML = sorted.map(p => {
-          const sign = p.dayDelta > 0 ? '+' : '';
-          const cls = p.dayDelta > 0 ? 'delta-pos' : (p.dayDelta < 0 ? 'delta-neg' : '');
-          return `
-            <div class="standing-item js-show-trend" data-id="${p.id}">
-              <div>
-                <div style="font-weight:800; font-size:14px;">${p.name} <span class="sub-text">（打 ${p.dayGames} 場）</span></div>
-                <div class="sub-text">${p.dayW}勝 ${p.dayL}負 · 淨勝分 ${p.dayDiff >= 0 ? '+' : ''}${p.dayDiff}</div>
+        if (sorted.length === 0) {
+          standingsEl.innerHTML = `<div class="empty-box">尚無球友戰績</div>`;
+        } else {
+          standingsEl.innerHTML = sorted.map(p => {
+            const sign = p.dayDelta > 0 ? '+' : '';
+            const cls = p.dayDelta > 0 ? 'delta-pos' : (p.dayDelta < 0 ? 'delta-neg' : '');
+            return `
+              <div class="standing-item js-show-trend" data-id="${p.id}">
+                <div>
+                  <div style="font-weight:800; font-size:14px;">${p.name} <span class="sub-text">（打 ${p.dayGames} 場）</span></div>
+                  <div class="sub-text">${p.dayW}勝 ${p.dayL}負 · 淨勝分 ${p.dayDiff >= 0 ? '+' : ''}${p.dayDiff}</div>
+                </div>
+                <div class="${cls}" style="font-size:15px;">${sign}${p.dayDelta}</div>
               </div>
-              <div class="${cls}" style="font-size:15px;">${sign}${p.dayDelta}</div>
-            </div>
-          `;
-        }).join('');
+            `;
+          }).join('');
+        }
 
         standingsEl.querySelectorAll('.js-show-trend').forEach(row => {
           row.addEventListener('click', () => showTrend(row.getAttribute('data-id')));
@@ -1749,7 +1761,6 @@
           return;
         }
 
-        // 依 sessionId 分組，並保留時間新到舊順序
         const sessionMap = new Map();
         state.sessions.forEach((s, idx) => {
           sessionMap.set(s.id, {
@@ -1805,16 +1816,16 @@
         const p = getPlayer(playerId);
         if (!p) return;
         document.getElementById('trendCard').style.display = 'block';
-        document.getElementById('trendTitle').textContent = `${p.name} 戰力趨勢`;
-        document.getElementById('trendSubtitle').textContent = `起始 ${p.history[0]} → 目前 ${p.skill}`;
-        const pts = p.history;
+        document.getElementById('trendTitle').textContent = `${p.name} 表現積分曲線`;
+        document.getElementById('trendSubtitle').textContent = `目前累計積分 ${p.dayDelta >= 0 ? '+' : ''}${p.dayDelta}`;
+        const pts = (Array.isArray(p.history) && p.history.length > 0) ? p.history : [0];
         const svg = document.getElementById('trendSvg');
         if (pts.length < 2) {
           svg.innerHTML = `<text x="160" y="64" text-anchor="middle" fill="#6E768A" font-size="13">再打幾場即可顯示曲線</text>`;
           return;
         }
-        const minV = Math.min(...pts) - 15;
-        const maxV = Math.max(...pts) + 15;
+        const minV = Math.min(...pts) - 10;
+        const maxV = Math.max(...pts) + 10;
         const spanV = Math.max(1, maxV - minV);
         const coords = pts.map((val, idx) => [
           16 + (idx / (pts.length - 1)) * 288,
@@ -1853,7 +1864,7 @@
       function switchAccount(accName) {
         const clean = (accName || '').trim();
         if (!clean) {
-          showToast('請輸入帳號名稱');
+          showToast('請輸入球團名稱');
           return;
         }
         saveState();
@@ -1869,25 +1880,23 @@
         showToast(`已切換至「${currentAccount}」`);
       }
 
-      function addPlayerInternal(name, gender, skill) {
+      function addPlayerInternal(name, gender) {
         const clean = (name || '').trim();
         if (!clean) {
           showToast('請輸入暱稱');
           return false;
         }
-        const numSkill = parseInt(skill, 10) || 1500;
         state.players.push({
           id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
           name: clean,
           gender: gender === 'F' ? 'F' : 'M',
-          skill: numSkill,
           active: true,
           dayGames: 0,
           dayW: 0,
           dayL: 0,
           dayDiff: 0,
           dayDelta: 0,
-          history: [numSkill]
+          history: [0]
         });
         syncMatchQueue();
         saveState();
@@ -1944,7 +1953,7 @@
       });
       document.getElementById('btnAddPlayerModal').addEventListener('click', () => {
         const n = document.getElementById('modalName');
-        if (addPlayerInternal(n.value, document.getElementById('modalGender').value, document.getElementById('modalSkill').value)) {
+        if (addPlayerInternal(n.value, document.getElementById('modalGender').value)) {
           n.value = '';
           document.getElementById('quickAddModal').classList.remove('open');
         }
@@ -1952,7 +1961,7 @@
 
       document.getElementById('btnAddPlayerForm').addEventListener('click', () => {
         const n = document.getElementById('newPlayerName');
-        if (addPlayerInternal(n.value, document.getElementById('newPlayerGender').value, document.getElementById('newPlayerSkill').value)) {
+        if (addPlayerInternal(n.value, document.getElementById('newPlayerGender').value)) {
           n.value = '';
         }
       });
@@ -1971,7 +1980,6 @@
         }
         p.name = newName;
         p.gender = document.getElementById('editPlayerGender').value;
-        p.skill = parseInt(document.getElementById('editPlayerSkill').value, 10) || 1500;
         document.getElementById('editPlayerModal').classList.remove('open');
         syncMatchQueue();
         saveState();
@@ -2028,7 +2036,7 @@
         const reader = new FileReader();
         reader.onload = () => {
           try {
-            state = Object.assign(cloneDefault(), JSON.parse(reader.result));
+            state = Object.assign(cloneObj(EMPTY_STATE), JSON.parse(reader.result));
             saveState();
             renderAll();
             showToast('已匯入備份');
@@ -2041,11 +2049,11 @@
       });
 
       document.getElementById('btnResetDemo').addEventListener('click', () => {
-        if (!confirm('確定要重設目前帳號的範例資料嗎？')) return;
-        state = cloneDefault();
+        if (!confirm(`確定要重置「${currentAccount}」的紀錄嗎？`)) return;
+        state = getDefaultTemplateForAccount(currentAccount);
         saveState();
         renderAll();
-        showToast('已重設範例');
+        showToast('已重置資料');
       });
 
       renderAll();
