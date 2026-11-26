@@ -13,7 +13,7 @@
     :root {
       --primary: #6A5ACD;
       --primary-dark: #5445B5;
-      --primary-soft: rgba(106, 90, 205, 0.10);
+      --primary-soft: rgba(106, 90, 205, 0.12);
       --bg: #F5F6FA;
       --card: #FFFFFF;
       --text: #1E2230;
@@ -34,7 +34,7 @@
 
     body {
       margin: 0;
-      padding: 0 0 84px 0;
+      padding: 0 0 108px 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
       background: var(--bg);
       color: var(--text);
@@ -120,7 +120,7 @@
     .app-wrap {
       max-width: 600px;
       margin: 0 auto;
-      padding: 14px;
+      padding: 14px 14px 20px;
     }
 
     .session-bar {
@@ -228,12 +228,13 @@
 
     .court-half {
       position: relative;
-      padding: 12px 10px;
+      padding: 12px 10px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      min-height: 215px;
+      min-height: 205px;
+      gap: 12px;
     }
 
     .court-half::before {
@@ -250,7 +251,6 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       opacity: 0.85;
-      margin-bottom: 6px;
     }
 
     .court-players {
@@ -287,43 +287,35 @@
       background: var(--female);
     }
 
-    .court-score {
-      font-size: 42px;
-      font-weight: 900;
-      line-height: 1;
-      margin: 10px 0 8px;
-      cursor: pointer;
-      z-index: 2;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .court-plus-btn {
-      width: 88%;
+    .win-btn {
+      width: 86%;
       border: none;
       background: #FFFFFF;
       color: var(--primary);
-      font-size: 15px;
+      font-size: 18px;
       font-weight: 900;
-      padding: 9px 0;
-      border-radius: 11px;
+      letter-spacing: 2px;
+      padding: 11px 0;
+      border-radius: 13px;
       cursor: pointer;
       z-index: 2;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
     }
 
-    .court-plus-btn:active {
+    .win-btn:active {
       transform: scale(0.96);
+      background: #F1EFFE;
     }
 
     .court-footer-btns {
       display: grid;
-      grid-template-columns: 1fr 1.6fr;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
 
     .btn-court-ghost {
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      background: rgba(255, 255, 255, 0.14);
       color: #FFFFFF;
       font-weight: 800;
       font-size: 13px;
@@ -651,35 +643,50 @@
       padding: 16px 8px;
     }
 
-    .bottom-nav {
+    /* 懸浮圓角膠囊底部導覽列 */
+    .floating-nav-wrap {
       position: fixed;
-      bottom: 0;
       left: 0;
       right: 0;
-      background: #FFFFFF;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+      bottom: max(12px, env(safe-area-inset-bottom));
+      padding: 0 18px;
       z-index: 25;
+      pointer-events: none;
+    }
+
+    .floating-nav {
+      pointer-events: auto;
+      max-width: 460px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(230, 233, 242, 0.95);
+      border-radius: 999px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      box-shadow: 0 10px 28px rgba(30, 34, 48, 0.14);
     }
 
     .nav-btn {
       flex: 1;
-      max-width: 170px;
       border: none;
       background: transparent;
       color: var(--text-sub);
       font-size: 13px;
       font-weight: 800;
-      padding: 8px 4px;
-      border-radius: 11px;
+      padding: 10px 8px;
+      border-radius: 999px;
       cursor: pointer;
+      transition: all 0.16s ease;
     }
 
     .nav-btn.active {
-      color: var(--primary);
-      background: var(--primary-soft);
+      color: #FFFFFF;
+      background: var(--primary);
+      box-shadow: 0 4px 12px rgba(106, 90, 205, 0.28);
     }
 
     .modal-backdrop {
@@ -888,11 +895,14 @@
     </section>
   </div>
 
-  <nav class="bottom-nav">
-    <button type="button" id="nav-match" class="nav-btn active">排場計分</button>
-    <button type="button" id="nav-players" class="nav-btn">球友設定</button>
-    <button type="button" id="nav-stats" class="nav-btn">戰績結算</button>
-  </nav>
+  <!-- 懸浮圓角膠囊底部導覽列 -->
+  <div class="floating-nav-wrap">
+    <nav class="floating-nav">
+      <button type="button" id="nav-match" class="nav-btn active">排場計分</button>
+      <button type="button" id="nav-players" class="nav-btn">球友設定</button>
+      <button type="button" id="nav-stats" class="nav-btn">戰績結算</button>
+    </nav>
+  </div>
 
   <div id="accountModal" class="modal-backdrop">
     <div class="modal-card">
@@ -944,23 +954,24 @@
     </div>
   </div>
 
+  <!-- 選填比分彈窗（可填也可直接存檔） -->
   <div id="scoreModal" class="modal-backdrop">
     <div class="modal-card">
       <div class="card-header">
-        <h3 class="card-title">輸入本局比分</h3>
+        <h3 class="card-title">選填本局比分</h3>
         <button type="button" id="btnCloseScoreModal" class="mini-icon-btn">✕</button>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
         <div>
           <div class="sub-text" id="modalTeamALabel" style="margin-bottom:4px;">左半場</div>
-          <input id="modalScoreA" type="number" min="0" max="99" style="font-size:20px; font-weight:900; text-align:center;" />
+          <input id="modalScoreA" type="number" min="0" max="99" placeholder="選填" style="font-size:20px; font-weight:900; text-align:center;" />
         </div>
         <div>
           <div class="sub-text" id="modalTeamBLabel" style="margin-bottom:4px;">右半場</div>
-          <input id="modalScoreB" type="number" min="0" max="99" style="font-size:20px; font-weight:900; text-align:center;" />
+          <input id="modalScoreB" type="number" min="0" max="99" placeholder="選填" style="font-size:20px; font-weight:900; text-align:center;" />
         </div>
       </div>
-      <button type="button" id="btnApplyManualScore" class="btn-primary" style="width:100%;">套用比分</button>
+      <button type="button" id="btnApplyManualScore" class="btn-primary" style="width:100%;">儲存比分</button>
     </div>
   </div>
 
@@ -991,7 +1002,7 @@
         avoidPairs: [],
         currentMatch: null,
         nextMatch: null,
-        scoreHistoryStack: [],
+        undoMatchSnapshot: null,
         sessions: [],
         matches: []
       };
@@ -1012,7 +1023,7 @@
         avoidPairs: [['fri_2', 'fri_3']],
         currentMatch: null,
         nextMatch: null,
-        scoreHistoryStack: [],
+        undoMatchSnapshot: null,
         sessions: [],
         matches: []
       };
@@ -1217,8 +1228,8 @@
         return {
           teamA: finalA.map(p => p.id),
           teamB: finalB.map(p => p.id),
-          scoreA: 0,
-          scoreB: 0,
+          customScoreA: null,
+          customScoreB: null,
           mode: state.pointMode,
           isRoundStart: roundStart
         };
@@ -1270,6 +1281,7 @@
         });
         state.currentMatch = null;
         state.nextMatch = null;
+        state.undoMatchSnapshot = null;
         syncMatchQueue();
         saveState();
         renderAll();
@@ -1290,7 +1302,7 @@
         </div>`;
 
         if (playedPlayers.length === 0) {
-          html += `<div class="empty-box">本場次尚未完成任何計分紀錄</div>`;
+          html += `<div class="empty-box">本場次尚未完成任何勝負紀錄</div>`;
         } else {
           html += playedPlayers.map(p => {
             const sign = p.dayDelta > 0 ? '+' : '';
@@ -1314,7 +1326,7 @@
         state.currentSessionId = null;
         state.currentMatch = null;
         state.nextMatch = null;
-        state.scoreHistoryStack = [];
+        state.undoMatchSnapshot = null;
         document.getElementById('summaryModal').classList.remove('open');
         saveState();
         renderAll();
@@ -1330,79 +1342,57 @@
         showToast(`切換為 ${mode} 分制`);
       }
 
-      function addScore(side) {
-        if (!state.sessionActive) {
-          showToast('請先按「開始打球」');
-          return;
-        }
-        if (!state.currentMatch) return;
-        state.scoreHistoryStack.push({
-          scoreA: state.currentMatch.scoreA,
-          scoreB: state.currentMatch.scoreB
-        });
-        if (side === 'A') state.currentMatch.scoreA += 1;
-        if (side === 'B') state.currentMatch.scoreB += 1;
-        saveState();
-        renderMatchTab();
-      }
-
-      function undoScore() {
-        if (!state.currentMatch || state.scoreHistoryStack.length === 0) {
-          showToast('沒有上一步可撤銷');
-          return;
-        }
-        const prev = state.scoreHistoryStack.pop();
-        state.currentMatch.scoreA = prev.scoreA;
-        state.currentMatch.scoreB = prev.scoreB;
-        saveState();
-        renderMatchTab();
-      }
-
       function openScoreModal() {
         if (!state.sessionActive || !state.currentMatch) return;
         const aNames = state.currentMatch.teamA.map(id => getPlayer(id)?.name || '').join('＋');
         const bNames = state.currentMatch.teamB.map(id => getPlayer(id)?.name || '').join('＋');
         document.getElementById('modalTeamALabel').textContent = aNames;
         document.getElementById('modalTeamBLabel').textContent = bNames;
-        document.getElementById('modalScoreA').value = state.currentMatch.scoreA;
-        document.getElementById('modalScoreB').value = state.currentMatch.scoreB;
+        document.getElementById('modalScoreA').value = state.currentMatch.customScoreA ?? '';
+        document.getElementById('modalScoreB').value = state.currentMatch.customScoreB ?? '';
         document.getElementById('scoreModal').classList.add('open');
       }
 
       function applyManualScore() {
         if (!state.currentMatch) return;
-        const sA = Math.max(0, parseInt(document.getElementById('modalScoreA').value, 10) || 0);
-        const sB = Math.max(0, parseInt(document.getElementById('modalScoreB').value, 10) || 0);
-        state.scoreHistoryStack.push({
-          scoreA: state.currentMatch.scoreA,
-          scoreB: state.currentMatch.scoreB
-        });
-        state.currentMatch.scoreA = sA;
-        state.currentMatch.scoreB = sB;
+        const rawA = document.getElementById('modalScoreA').value;
+        const rawB = document.getElementById('modalScoreB').value;
+        state.currentMatch.customScoreA = rawA === '' ? null : Math.max(0, parseInt(rawA, 10) || 0);
+        state.currentMatch.customScoreB = rawB === '' ? null : Math.max(0, parseInt(rawB, 10) || 0);
         document.getElementById('scoreModal').classList.remove('open');
         saveState();
         renderMatchTab();
+        showToast('已記錄選填比分');
       }
 
-      function finishMatch() {
+      function recordWin(winnerSide) {
         if (!state.sessionActive) {
           showToast('請先按「開始打球」');
           return;
         }
         const m = state.currentMatch;
         if (!m) return;
-        if (m.scoreA === m.scoreB) {
-          showToast('平手無法結算，請確認比分');
-          return;
-        }
+
+        // 儲存上一局快照以便撤銷
+        state.undoMatchSnapshot = {
+          players: cloneObj(state.players),
+          matches: cloneObj(state.matches),
+          currentMatch: cloneObj(state.currentMatch),
+          nextMatch: cloneObj(state.nextMatch)
+        };
 
         const modeWeight = m.mode === 21 ? 1.0 : 0.5;
-        const diffPoints = Math.abs(m.scoreA - m.scoreB);
-        const marginBonus = Math.min(8, Math.round(diffPoints * 0.5));
-        const aWon = m.scoreA > m.scoreB;
+        let diffBonus = 0;
+        if (m.customScoreA !== null && m.customScoreB !== null) {
+          diffBonus = Math.min(6, Math.round(Math.abs(m.customScoreA - m.customScoreB) * 0.4));
+        }
 
-        const deltaA = Math.round(((aWon ? 12 : -8) + (aWon ? marginBonus : -Math.floor(marginBonus * 0.5))) * modeWeight);
-        const deltaB = Math.round(((!aWon ? 12 : -8) + (!aWon ? marginBonus : -Math.floor(marginBonus * 0.5))) * modeWeight);
+        const aWon = winnerSide === 'A';
+        const deltaA = Math.round(((aWon ? 12 : -8) + (aWon ? diffBonus : -Math.floor(diffBonus * 0.5))) * modeWeight);
+        const deltaB = Math.round(((!aWon ? 12 : -8) + (!aWon ? diffBonus : -Math.floor(diffBonus * 0.5))) * modeWeight);
+        const pointDiffAB = (m.customScoreA !== null && m.customScoreB !== null)
+          ? (m.customScoreA - m.customScoreB)
+          : 0;
 
         const teamAPlayers = m.teamA.map(getPlayer).filter(Boolean);
         const teamBPlayers = m.teamB.map(getPlayer).filter(Boolean);
@@ -1411,7 +1401,7 @@
           p.dayGames += 1;
           p.dayW += aWon ? 1 : 0;
           p.dayL += aWon ? 0 : 1;
-          p.dayDiff += (m.scoreA - m.scoreB);
+          p.dayDiff += pointDiffAB;
           p.dayDelta += deltaA;
           if (!Array.isArray(p.history) || p.history.length === 0) p.history = [0];
           p.history.push(p.dayDelta);
@@ -1421,35 +1411,54 @@
           p.dayGames += 1;
           p.dayW += !aWon ? 1 : 0;
           p.dayL += !aWon ? 0 : 1;
-          p.dayDiff += (m.scoreB - m.scoreA);
+          p.dayDiff -= pointDiffAB;
           p.dayDelta += deltaB;
           if (!Array.isArray(p.history) || p.history.length === 0) p.history = [0];
           p.history.push(p.dayDelta);
         });
 
         const now = Date.now();
+        const scoreText = (m.customScoreA !== null && m.customScoreB !== null)
+          ? `${m.customScoreA} : ${m.customScoreB}`
+          : (aWon ? '左邊勝' : '右邊勝');
+
         state.matches.unshift({
           id: now,
           sessionId: state.currentSessionId,
           playedAt: now,
           mode: m.mode,
+          winnerSide,
           teamA: teamAPlayers.map(p => p.name),
           teamB: teamBPlayers.map(p => p.name),
-          scoreA: m.scoreA,
-          scoreB: m.scoreB,
+          scoreText,
           deltaA,
           deltaB
         });
 
-        state.scoreHistoryStack = [];
         state.currentMatch = state.nextMatch
-          ? Object.assign({}, state.nextMatch, { scoreA: 0, scoreB: 0, mode: state.pointMode })
+          ? Object.assign({}, state.nextMatch, { customScoreA: null, customScoreB: null, mode: state.pointMode })
           : null;
         syncMatchQueue();
 
         saveState();
         renderAll();
-        showToast(state.currentMatch?.isRoundStart ? '新的一輪開始！首場優先安排女生' : '本局已存檔，下一場上場！');
+        showToast(aWon ? '已記錄左邊贏，下一場上場！' : '已記錄右邊贏，下一場上場！');
+      }
+
+      function undoLastMatch() {
+        if (!state.undoMatchSnapshot) {
+          showToast('沒有上一局可撤銷');
+          return;
+        }
+        const snap = state.undoMatchSnapshot;
+        state.players = snap.players;
+        state.matches = snap.matches;
+        state.currentMatch = snap.currentMatch;
+        state.nextMatch = snap.nextMatch;
+        state.undoMatchSnapshot = null;
+        saveState();
+        renderAll();
+        showToast('已撤銷上一局勝負');
       }
 
       function shuffleNextMatch() {
@@ -1536,6 +1545,9 @@
               </div>
             `;
 
+            const hasCustomScore = m.customScoreA !== null && m.customScoreB !== null;
+            const scoreBadgeText = hasCustomScore ? `比分 ${m.customScoreA}:${m.customScoreB}` : '選填比分';
+
             const currCount = state.matches.filter(item => item.sessionId === state.currentSessionId).length;
             courtSection.innerHTML = `
               <div class="court-card">
@@ -1549,33 +1561,29 @@
 
                 <div class="badminton-court">
                   <div class="court-half">
-                    <div class="half-header">左半場</div>
+                    <div class="half-header">左邊</div>
                     <div class="court-players">${tA.map(renderSlot).join('')}</div>
-                    <div id="scoreDisplayA" class="court-score" title="點擊修改比分">${m.scoreA}</div>
-                    <button type="button" id="btnPlusA" class="court-plus-btn">+ 1</button>
+                    <button type="button" id="btnWinA" class="win-btn">贏</button>
                   </div>
 
                   <div class="court-half">
-                    <div class="half-header">右半場</div>
+                    <div class="half-header">右邊</div>
                     <div class="court-players">${tB.map(renderSlot).join('')}</div>
-                    <div id="scoreDisplayB" class="court-score" title="點擊修改比分">${m.scoreB}</div>
-                    <button type="button" id="btnPlusB" class="court-plus-btn">+ 1</button>
+                    <button type="button" id="btnWinB" class="win-btn">贏</button>
                   </div>
                 </div>
 
                 <div class="court-footer-btns">
-                  <button type="button" id="btnUndoScore" class="btn-court-ghost">撤銷</button>
-                  <button type="button" id="btnFinishMatch" class="btn-court-solid">結束本局並存檔</button>
+                  <button type="button" id="btnUndoMatch" class="btn-court-ghost">撤銷上一局</button>
+                  <button type="button" id="btnOpenScore" class="btn-court-solid">${scoreBadgeText}</button>
                 </div>
               </div>
             `;
 
-            document.getElementById('btnPlusA').addEventListener('click', () => addScore('A'));
-            document.getElementById('btnPlusB').addEventListener('click', () => addScore('B'));
-            document.getElementById('scoreDisplayA').addEventListener('click', openScoreModal);
-            document.getElementById('scoreDisplayB').addEventListener('click', openScoreModal);
-            document.getElementById('btnUndoScore').addEventListener('click', undoScore);
-            document.getElementById('btnFinishMatch').addEventListener('click', finishMatch);
+            document.getElementById('btnWinA').addEventListener('click', () => recordWin('A'));
+            document.getElementById('btnWinB').addEventListener('click', () => recordWin('B'));
+            document.getElementById('btnUndoMatch').addEventListener('click', undoLastMatch);
+            document.getElementById('btnOpenScore').addEventListener('click', openScoreModal);
 
             if (state.nextMatch) {
               const nA = state.nextMatch.teamA.map(id => getPlayer(id)?.name || '').join('＋');
@@ -1724,7 +1732,7 @@
               <div class="standing-item js-show-trend" data-id="${p.id}">
                 <div>
                   <div style="font-weight:800; font-size:14px;">${p.name} <span class="sub-text">（打 ${p.dayGames} 場）</span></div>
-                  <div class="sub-text">${p.dayW}勝 ${p.dayL}負 · 淨勝分 ${p.dayDiff >= 0 ? '+' : ''}${p.dayDiff}</div>
+                  <div class="sub-text">${p.dayW}勝 ${p.dayL}負</div>
                 </div>
                 <div class="${cls}" style="font-size:15px;">${sign}${p.dayDelta}</div>
               </div>
@@ -1777,15 +1785,19 @@
                 <span>場次 #${group.labelNum} · ${startStr} ~ ${endStr}</span>
                 <span>共 ${group.items.length} 局</span>
               </div>
-              ${group.items.map((m, idx) => `
-                <div class="history-row">
-                  <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:2px;">
-                    <span>第 ${group.items.length - idx} 局（${m.mode}分制 · ${formatTimeOnly(m.playedAt || m.id)}）</span>
-                    <span style="color:var(--primary);">${m.scoreA} : ${m.scoreB}</span>
+              ${group.items.map((m, idx) => {
+                const winLabel = m.winnerSide === 'A' ? '左邊勝' : '右邊勝';
+                const detailLabel = m.scoreText || winLabel;
+                return `
+                  <div class="history-row">
+                    <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:2px;">
+                      <span>第 ${group.items.length - idx} 局（${m.mode}分制 · ${formatTimeOnly(m.playedAt || m.id)}）</span>
+                      <span style="color:var(--primary);">${detailLabel}</span>
+                    </div>
+                    <div class="sub-text">${m.teamA.join('＋')} vs. ${m.teamB.join('＋')}</div>
                   </div>
-                  <div class="sub-text">${m.teamA.join('＋')} vs. ${m.teamB.join('＋')}</div>
-                </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>
           `;
         });
